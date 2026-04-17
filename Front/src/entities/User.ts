@@ -2,9 +2,10 @@ export interface User {
   id: string
   username: string
   storeName: string
-  telegram: string
+  number: string
   email?: string
   createdAt: string
+  apiKey?: string
 }
 
 export interface AuthCredentials {

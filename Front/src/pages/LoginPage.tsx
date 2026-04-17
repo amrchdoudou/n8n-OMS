@@ -38,7 +38,6 @@ export function LoginPage() {
     password: "",
     storeName: "",
     email: "",
-    telegram: "",
   })
 
   const pageBg = useColorModeValue("gray.50", "gray.900")
@@ -158,16 +157,7 @@ export function LoginPage() {
                             placeholder="My Shopify Store"
                           />
                         </FormControl>
-                        <FormControl>
-                          <FormLabel fontSize="sm">Telegram</FormLabel>
-                          <Input
-                            value={signupForm.telegram}
-                            onChange={(e) =>
-                              setSignupForm({ ...signupForm, telegram: e.target.value })
-                            }
-                            placeholder="@yourtelegram"
-                          />
-                        </FormControl>
+
                         <FormControl isRequired>
                           <FormLabel fontSize="sm">Password</FormLabel>
                           <Input

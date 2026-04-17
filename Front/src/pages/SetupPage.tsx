@@ -30,10 +30,12 @@ import { useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
 import { useSettingsStore, getShopifyWebhookUrl } from "../store/settingsStore"
 import { DELIVERY_PROVIDERS } from "../entities/Settings"
+import { useAuth } from "../hooks/useAuth"
 
 export function SetupPage() {
   const user = useAuthStore((s) => s.user)
   const { settings, setSettings, completeSetup } = useSettingsStore()
+  const { updateContactInfo } = useAuth()
   const navigate = useNavigate()
   const toast = useToast()
 
@@ -52,8 +54,19 @@ export function SetupPage() {
   const pageBg = useColorModeValue("gray.50", "gray.900")
   const border = useColorModeValue("gray.200", "gray.700")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Call the backend to persist contact info
+    await updateContactInfo.mutateAsync({
+      number: whatsappNumber,
+      storeName,
+      apiKey: deliveryApiKey,
+      deliveryProvider,
+      webhookUrl: shopifyUrl,
+    })
+
+    // Also update local settings store
     setSettings({
       storeName,
       whatsappNumber,
@@ -62,7 +75,6 @@ export function SetupPage() {
       deliveryApiKey,
     })
     completeSetup()
-    toast({ status: "success", title: "Setup complete!", isClosable: true })
     navigate("/")
   }
 
@@ -170,7 +182,7 @@ export function SetupPage() {
                     You can edit webhook URLs and n8n endpoints anytime in Settings.
                   </Alert>
 
-                  <Button type="submit" size="md">
+                  <Button type="submit" size="md" isLoading={updateContactInfo.isPending}>
                     Finish setup &amp; open dashboard
                   </Button>
                 </Stack>

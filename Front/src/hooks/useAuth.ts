@@ -15,9 +15,16 @@ interface LoginCredentials {
 interface RegisterCredentials {
   username: string
   storeName: string
-  telegram: string
   email: string
   password: string
+}
+
+interface UpdateContactInfoCredentials {
+  number: string
+  storeName: string
+  apiKey: string
+  deliveryProvider: string
+  webhookUrl: string
 }
 
 export function useAuth() {
@@ -48,7 +55,19 @@ export function useAuth() {
     },
   })
 
-  return { login, register }
+  const updateContactInfo = useMutation({
+    mutationFn: (creds: UpdateContactInfoCredentials) => authService.updateContactInfo(creds),
+    onSuccess: (user) => {
+      setUser(user)
+      toast({ status: "success", title: `Contact info updated successfully`, isClosable: true })
+    },
+    onError: (err: unknown) => {
+      const msg = err instanceof Error ? err.message : "Contact info update failed"
+      toast({ status: "error", title: "Contact info update failed", description: msg, isClosable: true })
+    },
+  })
+
+  return { login, register , updateContactInfo}
 }
 
 export function useAuthVerification() {

@@ -13,9 +13,16 @@ interface LoginResponse {
 interface RegisterCredentials {
   username: string
   storeName: string
-  telegram: string
   email: string
   password: string
+}
+
+interface UpdateContactInfoPayload {
+  number: string
+  storeName: string
+  apiKey: string
+  deliveryProvider: string
+  webhookUrl: string
 }
 
 export const authService = {
@@ -28,6 +35,12 @@ export const authService = {
     })
     localStorage.setItem(ACCESS_TOKEN_KEY, tokens.accessToken)
     localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken)
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user))
+    return user
+  },
+
+  async updateContactInfo(payload: UpdateContactInfoPayload): Promise<User> {
+    const user = await apiClient.put<User>("users/update-contact-info", payload)
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user))
     return user
   },
