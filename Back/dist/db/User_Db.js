@@ -1,11 +1,10 @@
 import { prisma, HashPassword } from "../Services/Common.js";
-const CreateUser = async (username, storeName, telegram, email, password) => {
+const CreateUser = async (username, storeName, email, password) => {
     try {
         const newUser = await prisma.user.create({
             data: {
                 username: username,
                 storeName: storeName,
-                telegram: telegram,
                 email: email,
                 password: HashPassword(password),
             },
@@ -38,14 +37,16 @@ const CheckUserPassword = async (email, password) => {
         throw error;
     }
 };
-const updateUserInfo = async (userId, Email, Password, Telegram) => {
+const updateUserInfo = async (userId, Email, Password, number, storeName, apiKey) => {
     try {
         const updatedUser = await prisma.user.update({
             where: { id: userId },
             data: {
                 ...(Email ? { email: Email } : {}),
                 ...(Password ? { password: HashPassword(Password) } : {}),
-                ...(Telegram ? { telegram: Telegram } : {}),
+                ...(number ? { whatsappNumber: number } : {}),
+                ...(storeName ? { storeName: storeName } : {}),
+                ...(apiKey ? { apiKey: apiKey } : {}),
             },
         });
         return updatedUser;
@@ -55,5 +56,23 @@ const updateUserInfo = async (userId, Email, Password, Telegram) => {
         throw error;
     }
 };
-export { CreateUser, CheckUserPassword, updateUserInfo };
+const UpdateContactInfoInfo = async (userId, number, storeName, apiKey, deliveryProvider) => {
+    try {
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
+            data: {
+                ...(number ? { whatsappNumber: number } : {}),
+                ...(storeName ? { storeName: storeName } : {}),
+                ...(apiKey ? { apiKey: apiKey } : {}),
+                ...(deliveryProvider ? { deliveryProvider: deliveryProvider } : {}),
+            },
+        });
+        return updatedUser;
+    }
+    catch (error) {
+        console.error("Error updating user:", error);
+        throw error;
+    }
+};
+export { CreateUser, CheckUserPassword, updateUserInfo, UpdateContactInfoInfo };
 //# sourceMappingURL=User_Db.js.map

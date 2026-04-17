@@ -53,6 +53,7 @@ export type OrderMinAggregateOutputType = {
   status: $Enums.OrderStatus | null
   trackingId: string | null
   deliveryType: $Enums.DeliveryType | null
+  webhookUrl: string | null
   createdAt: Date | null
   userId: number | null
 }
@@ -70,6 +71,7 @@ export type OrderMaxAggregateOutputType = {
   status: $Enums.OrderStatus | null
   trackingId: string | null
   deliveryType: $Enums.DeliveryType | null
+  webhookUrl: string | null
   createdAt: Date | null
   userId: number | null
 }
@@ -87,6 +89,7 @@ export type OrderCountAggregateOutputType = {
   status: number
   trackingId: number
   deliveryType: number
+  webhookUrl: number
   createdAt: number
   userId: number
   _all: number
@@ -120,6 +123,7 @@ export type OrderMinAggregateInputType = {
   status?: true
   trackingId?: true
   deliveryType?: true
+  webhookUrl?: true
   createdAt?: true
   userId?: true
 }
@@ -137,6 +141,7 @@ export type OrderMaxAggregateInputType = {
   status?: true
   trackingId?: true
   deliveryType?: true
+  webhookUrl?: true
   createdAt?: true
   userId?: true
 }
@@ -154,6 +159,7 @@ export type OrderCountAggregateInputType = {
   status?: true
   trackingId?: true
   deliveryType?: true
+  webhookUrl?: true
   createdAt?: true
   userId?: true
   _all?: true
@@ -258,6 +264,7 @@ export type OrderGroupByOutputType = {
   status: $Enums.OrderStatus
   trackingId: string | null
   deliveryType: $Enums.DeliveryType
+  webhookUrl: string | null
   createdAt: Date
   userId: number
   _count: OrderCountAggregateOutputType | null
@@ -298,6 +305,7 @@ export type OrderWhereInput = {
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   trackingId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFilter<"Order"> | $Enums.DeliveryType
+  webhookUrl?: Prisma.StringNullableFilter<"Order"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   userId?: Prisma.IntFilter<"Order"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -316,6 +324,7 @@ export type OrderOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   trackingId?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryType?: Prisma.SortOrder
+  webhookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -337,6 +346,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   trackingId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFilter<"Order"> | $Enums.DeliveryType
+  webhookUrl?: Prisma.StringNullableFilter<"Order"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   userId?: Prisma.IntFilter<"Order"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -355,6 +365,7 @@ export type OrderOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   trackingId?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryType?: Prisma.SortOrder
+  webhookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   _count?: Prisma.OrderCountOrderByAggregateInput
@@ -380,6 +391,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
   trackingId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   deliveryType?: Prisma.EnumDeliveryTypeWithAggregatesFilter<"Order"> | $Enums.DeliveryType
+  webhookUrl?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
   userId?: Prisma.IntWithAggregatesFilter<"Order"> | number
 }
@@ -396,6 +408,7 @@ export type OrderCreateInput = {
   status?: $Enums.OrderStatus
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
+  webhookUrl?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
 }
@@ -413,6 +426,7 @@ export type OrderUncheckedCreateInput = {
   status?: $Enums.OrderStatus
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
+  webhookUrl?: string | null
   createdAt?: Date | string
   userId: number
 }
@@ -429,6 +443,7 @@ export type OrderUpdateInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
 }
@@ -446,6 +461,7 @@ export type OrderUncheckedUpdateInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -463,6 +479,7 @@ export type OrderCreateManyInput = {
   status?: $Enums.OrderStatus
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
+  webhookUrl?: string | null
   createdAt?: Date | string
   userId: number
 }
@@ -479,6 +496,7 @@ export type OrderUpdateManyMutationInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -495,6 +513,7 @@ export type OrderUncheckedUpdateManyInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -522,6 +541,7 @@ export type OrderCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   trackingId?: Prisma.SortOrder
   deliveryType?: Prisma.SortOrder
+  webhookUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
@@ -546,6 +566,7 @@ export type OrderMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   trackingId?: Prisma.SortOrder
   deliveryType?: Prisma.SortOrder
+  webhookUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
@@ -563,6 +584,7 @@ export type OrderMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   trackingId?: Prisma.SortOrder
   deliveryType?: Prisma.SortOrder
+  webhookUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
@@ -644,6 +666,7 @@ export type OrderCreateWithoutUserInput = {
   status?: $Enums.OrderStatus
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
+  webhookUrl?: string | null
   createdAt?: Date | string
 }
 
@@ -660,6 +683,7 @@ export type OrderUncheckedCreateWithoutUserInput = {
   status?: $Enums.OrderStatus
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
+  webhookUrl?: string | null
   createdAt?: Date | string
 }
 
@@ -705,6 +729,7 @@ export type OrderScalarWhereInput = {
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   trackingId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFilter<"Order"> | $Enums.DeliveryType
+  webhookUrl?: Prisma.StringNullableFilter<"Order"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   userId?: Prisma.IntFilter<"Order"> | number
 }
@@ -722,6 +747,7 @@ export type OrderCreateManyUserInput = {
   status?: $Enums.OrderStatus
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
+  webhookUrl?: string | null
   createdAt?: Date | string
 }
 
@@ -737,6 +763,7 @@ export type OrderUpdateWithoutUserInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -753,6 +780,7 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -769,6 +797,7 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -787,6 +816,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   status?: boolean
   trackingId?: boolean
   deliveryType?: boolean
+  webhookUrl?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -805,6 +835,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   status?: boolean
   trackingId?: boolean
   deliveryType?: boolean
+  webhookUrl?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -823,6 +854,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   status?: boolean
   trackingId?: boolean
   deliveryType?: boolean
+  webhookUrl?: boolean
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -841,11 +873,12 @@ export type OrderSelectScalar = {
   status?: boolean
   trackingId?: boolean
   deliveryType?: boolean
+  webhookUrl?: boolean
   createdAt?: boolean
   userId?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shopifyId" | "customer" | "phone" | "location" | "product" | "price" | "currency" | "whatsappAttempts" | "status" | "trackingId" | "deliveryType" | "createdAt" | "userId", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shopifyId" | "customer" | "phone" | "location" | "product" | "price" | "currency" | "whatsappAttempts" | "status" | "trackingId" | "deliveryType" | "webhookUrl" | "createdAt" | "userId", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -874,6 +907,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     status: $Enums.OrderStatus
     trackingId: string | null
     deliveryType: $Enums.DeliveryType
+    webhookUrl: string | null
     createdAt: Date
     userId: number
   }, ExtArgs["result"]["order"]>
@@ -1312,6 +1346,7 @@ export interface OrderFieldRefs {
   readonly status: Prisma.FieldRef<"Order", 'OrderStatus'>
   readonly trackingId: Prisma.FieldRef<"Order", 'String'>
   readonly deliveryType: Prisma.FieldRef<"Order", 'DeliveryType'>
+  readonly webhookUrl: Prisma.FieldRef<"Order", 'String'>
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Order", 'Int'>
 }

@@ -22,28 +22,34 @@ export type UserMinAggregateOutputType = {
     id: number | null;
     username: string | null;
     storeName: string | null;
-    telegram: string | null;
+    whatsappNumber: string | null;
     email: string | null;
     password: string | null;
     createdAt: Date | null;
+    deliveryProvider: string | null;
+    apiKey: string | null;
 };
 export type UserMaxAggregateOutputType = {
     id: number | null;
     username: string | null;
     storeName: string | null;
-    telegram: string | null;
+    whatsappNumber: string | null;
     email: string | null;
     password: string | null;
     createdAt: Date | null;
+    deliveryProvider: string | null;
+    apiKey: string | null;
 };
 export type UserCountAggregateOutputType = {
     id: number;
     username: number;
     storeName: number;
-    telegram: number;
+    whatsappNumber: number;
     email: number;
     password: number;
     createdAt: number;
+    deliveryProvider: number;
+    apiKey: number;
     _all: number;
 };
 export type UserAvgAggregateInputType = {
@@ -56,28 +62,34 @@ export type UserMinAggregateInputType = {
     id?: true;
     username?: true;
     storeName?: true;
-    telegram?: true;
+    whatsappNumber?: true;
     email?: true;
     password?: true;
     createdAt?: true;
+    deliveryProvider?: true;
+    apiKey?: true;
 };
 export type UserMaxAggregateInputType = {
     id?: true;
     username?: true;
     storeName?: true;
-    telegram?: true;
+    whatsappNumber?: true;
     email?: true;
     password?: true;
     createdAt?: true;
+    deliveryProvider?: true;
+    apiKey?: true;
 };
 export type UserCountAggregateInputType = {
     id?: true;
     username?: true;
     storeName?: true;
-    telegram?: true;
+    whatsappNumber?: true;
     email?: true;
     password?: true;
     createdAt?: true;
+    deliveryProvider?: true;
+    apiKey?: true;
     _all?: true;
 };
 export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -160,10 +172,12 @@ export type UserGroupByOutputType = {
     id: number;
     username: string;
     storeName: string;
-    telegram: string;
+    whatsappNumber: string | null;
     email: string | null;
     password: string;
     createdAt: Date;
+    deliveryProvider: string | null;
+    apiKey: string | null;
     _count: UserCountAggregateOutputType | null;
     _avg: UserAvgAggregateOutputType | null;
     _sum: UserSumAggregateOutputType | null;
@@ -180,20 +194,24 @@ export type UserWhereInput = {
     id?: Prisma.IntFilter<"User"> | number;
     username?: Prisma.StringFilter<"User"> | string;
     storeName?: Prisma.StringFilter<"User"> | string;
-    telegram?: Prisma.StringFilter<"User"> | string;
+    whatsappNumber?: Prisma.StringNullableFilter<"User"> | string | null;
     email?: Prisma.StringNullableFilter<"User"> | string | null;
     password?: Prisma.StringFilter<"User"> | string;
     createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
+    deliveryProvider?: Prisma.StringNullableFilter<"User"> | string | null;
+    apiKey?: Prisma.StringNullableFilter<"User"> | string | null;
     orders?: Prisma.OrderListRelationFilter;
 };
 export type UserOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
     username?: Prisma.SortOrder;
     storeName?: Prisma.SortOrder;
-    telegram?: Prisma.SortOrder;
+    whatsappNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
     email?: Prisma.SortOrderInput | Prisma.SortOrder;
     password?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    deliveryProvider?: Prisma.SortOrderInput | Prisma.SortOrder;
+    apiKey?: Prisma.SortOrderInput | Prisma.SortOrder;
     orders?: Prisma.OrderOrderByRelationAggregateInput;
 };
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -204,19 +222,23 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     username?: Prisma.StringFilter<"User"> | string;
     storeName?: Prisma.StringFilter<"User"> | string;
-    telegram?: Prisma.StringFilter<"User"> | string;
+    whatsappNumber?: Prisma.StringNullableFilter<"User"> | string | null;
     password?: Prisma.StringFilter<"User"> | string;
     createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
+    deliveryProvider?: Prisma.StringNullableFilter<"User"> | string | null;
+    apiKey?: Prisma.StringNullableFilter<"User"> | string | null;
     orders?: Prisma.OrderListRelationFilter;
 }, "id" | "email">;
 export type UserOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
     username?: Prisma.SortOrder;
     storeName?: Prisma.SortOrder;
-    telegram?: Prisma.SortOrder;
+    whatsappNumber?: Prisma.SortOrderInput | Prisma.SortOrder;
     email?: Prisma.SortOrderInput | Prisma.SortOrder;
     password?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    deliveryProvider?: Prisma.SortOrderInput | Prisma.SortOrder;
+    apiKey?: Prisma.SortOrderInput | Prisma.SortOrder;
     _count?: Prisma.UserCountOrderByAggregateInput;
     _avg?: Prisma.UserAvgOrderByAggregateInput;
     _max?: Prisma.UserMaxOrderByAggregateInput;
@@ -230,83 +252,101 @@ export type UserScalarWhereWithAggregatesInput = {
     id?: Prisma.IntWithAggregatesFilter<"User"> | number;
     username?: Prisma.StringWithAggregatesFilter<"User"> | string;
     storeName?: Prisma.StringWithAggregatesFilter<"User"> | string;
-    telegram?: Prisma.StringWithAggregatesFilter<"User"> | string;
+    whatsappNumber?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
     email?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
     password?: Prisma.StringWithAggregatesFilter<"User"> | string;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
+    deliveryProvider?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    apiKey?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
 };
 export type UserCreateInput = {
     username: string;
     storeName: string;
-    telegram: string;
+    whatsappNumber?: string | null;
     email?: string | null;
     password?: string;
     createdAt?: Date | string;
+    deliveryProvider?: string | null;
+    apiKey?: string | null;
     orders?: Prisma.OrderCreateNestedManyWithoutUserInput;
 };
 export type UserUncheckedCreateInput = {
     id?: number;
     username: string;
     storeName: string;
-    telegram: string;
+    whatsappNumber?: string | null;
     email?: string | null;
     password?: string;
     createdAt?: Date | string;
+    deliveryProvider?: string | null;
+    apiKey?: string | null;
     orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput;
 };
 export type UserUpdateInput = {
     username?: Prisma.StringFieldUpdateOperationsInput | string;
     storeName?: Prisma.StringFieldUpdateOperationsInput | string;
-    telegram?: Prisma.StringFieldUpdateOperationsInput | string;
+    whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deliveryProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     orders?: Prisma.OrderUpdateManyWithoutUserNestedInput;
 };
 export type UserUncheckedUpdateInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     username?: Prisma.StringFieldUpdateOperationsInput | string;
     storeName?: Prisma.StringFieldUpdateOperationsInput | string;
-    telegram?: Prisma.StringFieldUpdateOperationsInput | string;
+    whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deliveryProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput;
 };
 export type UserCreateManyInput = {
     id?: number;
     username: string;
     storeName: string;
-    telegram: string;
+    whatsappNumber?: string | null;
     email?: string | null;
     password?: string;
     createdAt?: Date | string;
+    deliveryProvider?: string | null;
+    apiKey?: string | null;
 };
 export type UserUpdateManyMutationInput = {
     username?: Prisma.StringFieldUpdateOperationsInput | string;
     storeName?: Prisma.StringFieldUpdateOperationsInput | string;
-    telegram?: Prisma.StringFieldUpdateOperationsInput | string;
+    whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deliveryProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type UserUncheckedUpdateManyInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     username?: Prisma.StringFieldUpdateOperationsInput | string;
     storeName?: Prisma.StringFieldUpdateOperationsInput | string;
-    telegram?: Prisma.StringFieldUpdateOperationsInput | string;
+    whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deliveryProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type UserCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     username?: Prisma.SortOrder;
     storeName?: Prisma.SortOrder;
-    telegram?: Prisma.SortOrder;
+    whatsappNumber?: Prisma.SortOrder;
     email?: Prisma.SortOrder;
     password?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    deliveryProvider?: Prisma.SortOrder;
+    apiKey?: Prisma.SortOrder;
 };
 export type UserAvgOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -315,19 +355,23 @@ export type UserMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     username?: Prisma.SortOrder;
     storeName?: Prisma.SortOrder;
-    telegram?: Prisma.SortOrder;
+    whatsappNumber?: Prisma.SortOrder;
     email?: Prisma.SortOrder;
     password?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    deliveryProvider?: Prisma.SortOrder;
+    apiKey?: Prisma.SortOrder;
 };
 export type UserMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
     username?: Prisma.SortOrder;
     storeName?: Prisma.SortOrder;
-    telegram?: Prisma.SortOrder;
+    whatsappNumber?: Prisma.SortOrder;
     email?: Prisma.SortOrder;
     password?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    deliveryProvider?: Prisma.SortOrder;
+    apiKey?: Prisma.SortOrder;
 };
 export type UserSumOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -367,19 +411,23 @@ export type UserUpdateOneRequiredWithoutOrdersNestedInput = {
 export type UserCreateWithoutOrdersInput = {
     username: string;
     storeName: string;
-    telegram: string;
+    whatsappNumber?: string | null;
     email?: string | null;
     password?: string;
     createdAt?: Date | string;
+    deliveryProvider?: string | null;
+    apiKey?: string | null;
 };
 export type UserUncheckedCreateWithoutOrdersInput = {
     id?: number;
     username: string;
     storeName: string;
-    telegram: string;
+    whatsappNumber?: string | null;
     email?: string | null;
     password?: string;
     createdAt?: Date | string;
+    deliveryProvider?: string | null;
+    apiKey?: string | null;
 };
 export type UserCreateOrConnectWithoutOrdersInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -397,19 +445,23 @@ export type UserUpdateToOneWithWhereWithoutOrdersInput = {
 export type UserUpdateWithoutOrdersInput = {
     username?: Prisma.StringFieldUpdateOperationsInput | string;
     storeName?: Prisma.StringFieldUpdateOperationsInput | string;
-    telegram?: Prisma.StringFieldUpdateOperationsInput | string;
+    whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deliveryProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type UserUncheckedUpdateWithoutOrdersInput = {
     id?: Prisma.IntFieldUpdateOperationsInput | number;
     username?: Prisma.StringFieldUpdateOperationsInput | string;
     storeName?: Prisma.StringFieldUpdateOperationsInput | string;
-    telegram?: Prisma.StringFieldUpdateOperationsInput | string;
+    whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     password?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    deliveryProvider?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    apiKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 /**
  * Count Type UserCountOutputType
@@ -439,10 +491,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     id?: boolean;
     username?: boolean;
     storeName?: boolean;
-    telegram?: boolean;
+    whatsappNumber?: boolean;
     email?: boolean;
     password?: boolean;
     createdAt?: boolean;
+    deliveryProvider?: boolean;
+    apiKey?: boolean;
     orders?: boolean | Prisma.User$ordersArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
@@ -450,30 +504,36 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
     id?: boolean;
     username?: boolean;
     storeName?: boolean;
-    telegram?: boolean;
+    whatsappNumber?: boolean;
     email?: boolean;
     password?: boolean;
     createdAt?: boolean;
+    deliveryProvider?: boolean;
+    apiKey?: boolean;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
     username?: boolean;
     storeName?: boolean;
-    telegram?: boolean;
+    whatsappNumber?: boolean;
     email?: boolean;
     password?: boolean;
     createdAt?: boolean;
+    deliveryProvider?: boolean;
+    apiKey?: boolean;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectScalar = {
     id?: boolean;
     username?: boolean;
     storeName?: boolean;
-    telegram?: boolean;
+    whatsappNumber?: boolean;
     email?: boolean;
     password?: boolean;
     createdAt?: boolean;
+    deliveryProvider?: boolean;
+    apiKey?: boolean;
 };
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "storeName" | "telegram" | "email" | "password" | "createdAt", ExtArgs["result"]["user"]>;
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "storeName" | "whatsappNumber" | "email" | "password" | "createdAt" | "deliveryProvider" | "apiKey", ExtArgs["result"]["user"]>;
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     orders?: boolean | Prisma.User$ordersArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
@@ -489,10 +549,12 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
         id: number;
         username: string;
         storeName: string;
-        telegram: string;
+        whatsappNumber: string | null;
         email: string | null;
         password: string;
         createdAt: Date;
+        deliveryProvider: string | null;
+        apiKey: string | null;
     }, ExtArgs["result"]["user"]>;
     composites: {};
 };
@@ -851,10 +913,12 @@ export interface UserFieldRefs {
     readonly id: Prisma.FieldRef<"User", 'Int'>;
     readonly username: Prisma.FieldRef<"User", 'String'>;
     readonly storeName: Prisma.FieldRef<"User", 'String'>;
-    readonly telegram: Prisma.FieldRef<"User", 'String'>;
+    readonly whatsappNumber: Prisma.FieldRef<"User", 'String'>;
     readonly email: Prisma.FieldRef<"User", 'String'>;
     readonly password: Prisma.FieldRef<"User", 'String'>;
     readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>;
+    readonly deliveryProvider: Prisma.FieldRef<"User", 'String'>;
+    readonly apiKey: Prisma.FieldRef<"User", 'String'>;
 }
 /**
  * User findUnique

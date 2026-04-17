@@ -3,13 +3,12 @@ import type { User } from "../generated/prisma/client.js";
 import { prisma, HashPassword } from "../Services/Common.js";
 
 
-const CreateUser = async (username: string, storeName: string, telegram: string, email: string, password: string) => {
+const CreateUser = async (username: string, storeName: string, email: string, password: string) => {
     try {
         const newUser: User = await prisma.user.create({
             data: {
                 username: username,
                 storeName: storeName,
-                telegram: telegram,
                 email: email,
                 password: HashPassword(password),
             },
@@ -47,14 +46,17 @@ const CheckUserPassword = async (email: string, password: string) => {
     }
 };
 
-const updateUserInfo = async (userId: number, Email?: string, Password?: string, Telegram?: string) => {
+const updateUserInfo = async (userId: number, Email?: string, Password?: string, number?: string, storeName?: string , apiKey?: string) => {
     try {
         const updatedUser: User = await prisma.user.update({
             where: { id: userId },
             data: {
                 ...(Email ? { email: Email } : {}),
                 ...(Password ? { password: HashPassword(Password) } : {}),
-                ...(Telegram ? { telegram: Telegram } : {}),
+                ...(number ? { whatsappNumber: number } : {}),
+                ...(storeName ? { storeName: storeName } : {}),
+                ...(apiKey ? { apiKey: apiKey } : {}),
+
             },
         });
 
@@ -65,4 +67,27 @@ const updateUserInfo = async (userId: number, Email?: string, Password?: string,
     }
 };
 
-export { CreateUser, CheckUserPassword, updateUserInfo };
+
+const UpdateContactInfoInfo = async (userId: number, number?: string, storeName?: string , apiKey?: string, deliveryProvider?: string, webhookUrl?: string) => {
+    try {
+        const updatedUser: User = await prisma.user.update({
+            where: { id: userId },
+            data: {
+               
+                ...(number ? { whatsappNumber: number } : {}),
+                ...(storeName ? { storeName: storeName } : {}),
+                ...(apiKey ? { apiKey: apiKey } : {}),
+                ...(deliveryProvider ? { deliveryProvider: deliveryProvider } : {}),
+                ...(webhookUrl ? { webhookUrl: webhookUrl } : {}),
+
+            },
+        });
+
+        return updatedUser;
+    } catch (error) {
+        console.error("Error updating user:", error);
+        throw error;
+    }
+};
+
+export { CreateUser, CheckUserPassword, updateUserInfo , UpdateContactInfoInfo };

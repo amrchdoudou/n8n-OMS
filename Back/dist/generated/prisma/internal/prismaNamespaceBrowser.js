@@ -55,10 +55,12 @@ export const UserScalarFieldEnum = {
     id: 'id',
     username: 'username',
     storeName: 'storeName',
-    telegram: 'telegram',
+    whatsappNumber: 'whatsappNumber',
     email: 'email',
     password: 'password',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    deliveryProvider: 'deliveryProvider',
+    apiKey: 'apiKey'
 };
 export const OrderScalarFieldEnum = {
     id: 'id',

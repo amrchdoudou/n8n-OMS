@@ -73,10 +73,13 @@ export const UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
   storeName: 'storeName',
-  telegram: 'telegram',
+  whatsappNumber: 'whatsappNumber',
   email: 'email',
   password: 'password',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  deliveryProvider: 'deliveryProvider',
+  apiKey: 'apiKey',
+  webhookUrl: 'webhookUrl'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -95,6 +98,7 @@ export const OrderScalarFieldEnum = {
   status: 'status',
   trackingId: 'trackingId',
   deliveryType: 'deliveryType',
+  webhookUrl: 'webhookUrl',
   createdAt: 'createdAt',
   userId: 'userId'
 } as const

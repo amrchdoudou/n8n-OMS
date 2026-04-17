@@ -12,6 +12,7 @@ interface CreateOrderInput {
     price: number;
     currency?: string;
     deliveryType?: DeliveryType;
+    webhookUrl?: string;
 
 }
 
@@ -27,6 +28,7 @@ interface UpdateOrderInput {
     status?: OrderStatus;
     trackingId?: string;
     deliveryType?: DeliveryType;
+    webhookUrl?: string;
 }
 
 const CreateOrder = async (userId: number, data: CreateOrderInput) => {
@@ -42,6 +44,7 @@ const CreateOrder = async (userId: number, data: CreateOrderInput) => {
                 price: data.price,
                 ...(data.currency ? { currency: data.currency } : {}),
                 ...(data.deliveryType ? { deliveryType: data.deliveryType } : {}),
+                ...(data.webhookUrl ? { webhookUrl: data.webhookUrl } : {}),
             },
         });
 
@@ -94,6 +97,7 @@ const UpdateOrder = async (orderId: number, data: UpdateOrderInput) => {
                 ...(data.status ? { status: data.status } : {}),
                 ...(data.trackingId !== undefined ? { trackingId: data.trackingId } : {}),
                 ...(data.deliveryType ? { deliveryType: data.deliveryType } : {}),
+                ...(data.webhookUrl !== undefined ? { webhookUrl: data.webhookUrl } : {}),
             },
         });
 
@@ -117,5 +121,35 @@ const DeleteOrder = async (orderId: number) => {
     }
 };
 
-export { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder };
+const GetOrdersByWebhookUrl = async (userId: number, webhookUrl: string) => {
+    try {
+        const orders = await prisma.order.findMany({
+            where: {
+                userId: userId,
+                webhookUrl: webhookUrl,
+            },
+            orderBy: { createdAt: "desc" },
+        });
+
+        return orders;
+    } catch (error) {
+        console.error("Error fetching orders by webhook:", error);
+        throw error;
+    }
+};
+
+const GetUserByApiKey = async (apiKey: string) => {
+    try {
+        const user = await prisma.user.findFirst({
+            where: { apiKey: apiKey },
+        });
+
+        return user;
+    } catch (error) {
+        console.error("Error fetching user by API key:", error);
+        throw error;
+    }
+};
+
+export { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder, GetOrdersByWebhookUrl, GetUserByApiKey };
 export type { CreateOrderInput, UpdateOrderInput };
