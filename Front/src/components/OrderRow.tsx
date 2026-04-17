@@ -1,0 +1,220 @@
+import {
+  Button,
+  HStack,
+  IconButton,
+  Tag,
+  TagLabel,
+  Td,
+  Text,
+  Tooltip,
+  Tr,
+  VStack,
+  useColorModeValue,
+} from "@chakra-ui/react"
+import {
+  FiCheck,
+  FiRefreshCw,
+  FiRotateCcw,
+  FiX,
+} from "react-icons/fi"
+import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa"
+import { IoLogoWhatsapp, IoCallSharp } from "react-icons/io5"
+
+import type { Order } from "../entities/Order"
+import { StatusBadge } from "./StatusBadge"
+import { useOrderActions } from "../hooks/useOrderActions"
+
+interface Props {
+  order: Order
+  index: number
+}
+
+export function OrderRow({ order, index }: Props) {
+  const {
+    sendWhatsApp,
+    confirmOrder,
+    cancelOrder,
+    reopenOrder,
+    refreshTracking,
+  } = useOrderActions()
+
+  const isPending = order.status === "pending"
+  const isFailedOrCancelled =
+    order.status === "cancelled" || order.status === "failed" || order.status === "returned"
+  const isPushed = order.status === "pushed" || order.status === "in_transit"
+
+  const attemptColor =
+    order.whatsappAttempts === 0
+      ? "gray.500"
+      : order.whatsappAttempts === 1
+        ? "orange.500"
+        : "red.500"
+
+  const hoverBg = useColorModeValue("gray.50", "gray.700")
+
+  return (
+    <Tr _hover={{ bg: hoverBg }} transition="background 0.15s">
+      <Td fontSize="sm" color="gray.500" fontWeight="500">
+        {index + 1}
+      </Td>
+      <Td>
+        <VStack align="start" spacing={0}>
+          <Text fontSize="sm" fontWeight="600" dir="auto">
+            {order.customer}
+          </Text>
+          <Text fontSize="xs" color="gray.500">
+            #{order.id}
+          </Text>
+        </VStack>
+      </Td>
+      <Td fontSize="sm" whiteSpace="nowrap">
+        {order.phone}
+      </Td>
+      <Td>
+        <VStack align="start" spacing={1}>
+          <Text fontSize="sm" dir="auto">
+            {order.location}
+          </Text>
+          <Tag
+            size="sm"
+            colorScheme={order.deliveryType === "domicile" ? "teal" : "orange"}
+            variant="subtle"
+          >
+            <TagLabel fontSize="xs">
+              {order.deliveryType === "domicile" ? "Domicile" : "Stop Desk"}
+            </TagLabel>
+          </Tag>
+        </VStack>
+      </Td>
+      <Td>
+        <VStack align="start" spacing={0} maxW="220px">
+          <Text fontSize="sm" fontWeight="500" noOfLines={1}>
+            {order.product}
+          </Text>
+        </VStack>
+      </Td>
+      <Td fontSize="sm" fontWeight="600" whiteSpace="nowrap">
+        {order.price.toLocaleString()} {order.currency}
+      </Td>
+      <Td>
+        <Text fontSize="sm" fontWeight="600" color={attemptColor}>
+          {order.whatsappAttempts}/3
+        </Text>
+      </Td>
+      <Td>
+        <StatusBadge status={order.status} />
+      </Td>
+      <Td>
+        {order.trackingId ? (
+          <Text fontSize="xs" fontFamily="mono" color="gray.600" _dark={{ color: "gray.300" }}>
+            {order.trackingId}
+          </Text>
+        ) : (
+          <Text fontSize="xs" color="gray.400">
+            —
+          </Text>
+        )}
+      </Td>
+      <Td>
+        <Tooltip label="Call via WhatsApp" hasArrow>
+          <IconButton
+            aria-label="WhatsApp Call"
+            icon={<IoCallSharp size="20" />}
+            size="sm"
+            variant="ghost"
+            color="#25D366"
+            _hover={{ bg: "rgba(37, 211, 102, 0.1)" }}
+            as="a"
+            href={`https://wa.me/${order.phone.replace(/[^0-9]/g, "")}`}
+            target="_blank"
+          />
+        </Tooltip>
+      </Td>
+      <Td>
+        <HStack spacing={1} justify="flex-end">
+          {isPending && (
+            <>
+              <Tooltip label="Send WhatsApp confirmation" hasArrow>
+                <IconButton
+                  aria-label="Send WhatsApp"
+                  icon={<IoLogoWhatsapp size="20" />}
+                  size="sm"
+                  variant="ghost"
+                  color="#25D366"
+                  _hover={{ bg: "rgba(37, 211, 102, 0.1)" }}
+                  onClick={() => sendWhatsApp.mutate(order.id)}
+                  isLoading={
+                    sendWhatsApp.isPending && sendWhatsApp.variables === order.id
+                  }
+                />
+              </Tooltip>
+              <Tooltip label="Confirm & push to delivery" hasArrow>
+                <IconButton
+                  aria-label="Confirm"
+                  icon={<FiCheck />}
+                  size="sm"
+                  colorScheme="blue"
+                  onClick={() => confirmOrder.mutate(order.id)}
+                  isLoading={
+                    confirmOrder.isPending && confirmOrder.variables === order.id
+                  }
+                />
+              </Tooltip>
+              <Tooltip label="Cancel order" hasArrow>
+                <IconButton
+                  aria-label="Cancel"
+                  icon={<FiX />}
+                  size="sm"
+                  colorScheme="red"
+                  variant="outline"
+                  onClick={() => cancelOrder.mutate(order.id)}
+                  isLoading={
+                    cancelOrder.isPending && cancelOrder.variables === order.id
+                  }
+                />
+              </Tooltip>
+            </>
+          )}
+
+          {isFailedOrCancelled && (
+            <Tooltip label="Reopen — reset to Pending" hasArrow>
+              <Button
+                leftIcon={<FiRotateCcw />}
+                size="sm"
+                colorScheme="orange"
+                variant="outline"
+                onClick={() => reopenOrder.mutate(order.id)}
+                isLoading={reopenOrder.isPending && reopenOrder.variables === order.id}
+              >
+                Reopen
+              </Button>
+            </Tooltip>
+          )}
+
+          {isPushed && (
+            <Tooltip label="Refresh tracking from delivery" hasArrow>
+              <Button
+                leftIcon={<FiRefreshCw />}
+                size="sm"
+                colorScheme="gray"
+                variant="outline"
+                onClick={() => refreshTracking.mutate(order.id)}
+                isLoading={
+                  refreshTracking.isPending && refreshTracking.variables === order.id
+                }
+              >
+                Refresh
+              </Button>
+            </Tooltip>
+          )}
+
+          {order.status === "delivered" && (
+            <Text fontSize="xs" color="green.500" fontWeight="500">
+              Completed
+            </Text>
+          )}
+        </HStack>
+      </Td>
+    </Tr>
+  )
+}
