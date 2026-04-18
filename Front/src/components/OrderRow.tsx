@@ -38,8 +38,9 @@ export function OrderRow({ order, index }: Props) {
 
   const { plan } = usePlanStore()
   
-  const hasOrderApproval = plan === "normal" || plan === "premium"
-  const hasAutomatedDelivery = plan === "premium"
+  const showConfirm = plan === "normal" || plan === "premium"
+  const showCancel = plan === "normal" || plan === "premium"
+  const showWhatsApp = plan === "premium"
 
   const isPending = order.status === "pending" || order.status === "new" || order.status === "true"
   const isFailedOrCancelled =
@@ -137,7 +138,7 @@ export function OrderRow({ order, index }: Props) {
         <HStack spacing={1} justify="flex-end">
           {isPending && (
             <>
-              {hasOrderApproval && (
+              {showWhatsApp && (
                 <Tooltip label="Record WhatsApp attempt" hasArrow>
                   <IconButton
                     aria-label="WhatsApp Attempt"
@@ -153,7 +154,7 @@ export function OrderRow({ order, index }: Props) {
                   />
                 </Tooltip>
               )}
-              {hasAutomatedDelivery && (
+              {showConfirm && (
                 <Tooltip label="Confirm order" hasArrow>
                   <IconButton
                     aria-label="Confirm"
@@ -167,7 +168,7 @@ export function OrderRow({ order, index }: Props) {
                   />
                 </Tooltip>
               )}
-              {hasOrderApproval && (
+              {showCancel && (
                 <Tooltip label="Cancel order" hasArrow>
                   <IconButton
                     aria-label="Cancel"
