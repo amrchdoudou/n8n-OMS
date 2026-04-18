@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios"
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8081"
+
 /**
  * Generic API client that wraps axios. All services go through this
  * so we have a single place where GET / POST / PUT / DELETE requests
@@ -10,7 +12,7 @@ class ApiClient {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://localhost:8081/',
+      baseURL: API_BASE_URL,
       timeout: 15000,
       headers: {
         "Content-Type": "application/json",
