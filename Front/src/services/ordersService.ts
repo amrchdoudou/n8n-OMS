@@ -23,9 +23,9 @@ const DELIVERY_APIS: Record<string, {
     extractStatus: (data) => data?.data?.[0]?.status ?? null,
   },
   maystro: {
-    getTrackingUrl: (trackingId) => `https://api.maystro-delivery.com/api/v1/tracking/${trackingId}`,
+    getTrackingUrl: (trackingId) => `https://backend.maystro-delivery.com/api/v1/tracking/${trackingId}`,
     getHeaders: (apiKey) => ({
-      'Authorization': `Api-Key ${apiKey}`,
+      'Authorization': `Token ${apiKey}`,
     }),
     extractStatus: (data) => data?.status ?? null,
   },
