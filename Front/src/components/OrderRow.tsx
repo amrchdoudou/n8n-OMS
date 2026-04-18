@@ -21,6 +21,7 @@ import { IoLogoWhatsapp, IoCallSharp } from "react-icons/io5"
 import type { Order } from "../entities/Order"
 import { StatusBadge } from "./StatusBadge"
 import { useOrderActions } from "../hooks/useOrderActions"
+import { usePlanStore } from "../store/planStore"
 
 interface Props {
   order: Order
@@ -34,6 +35,11 @@ export function OrderRow({ order, index }: Props) {
     reopenOrder,
     incrementWhatsAppAttempt,
   } = useOrderActions()
+
+  const { plan } = usePlanStore()
+  
+  const hasOrderApproval = plan === "normal" || plan === "premium"
+  const hasAutomatedDelivery = plan === "premium"
 
   const isPending = order.status === "pending" || order.status === "new" || order.status === "true"
   const isFailedOrCancelled =
@@ -131,45 +137,51 @@ export function OrderRow({ order, index }: Props) {
         <HStack spacing={1} justify="flex-end">
           {isPending && (
             <>
-               <Tooltip label="Record WhatsApp attempt" hasArrow>
-                <IconButton
-                  aria-label="WhatsApp Attempt"
-                  icon={<IoLogoWhatsapp />}
-                  size="sm"
-                  colorScheme="whatsapp"
-                  variant="outline"
-                  onClick={() => incrementWhatsAppAttempt.mutate(order)}
-                  isLoading={
-                    incrementWhatsAppAttempt.isPending &&
-                    incrementWhatsAppAttempt.variables?.id === order.id
-                  }
-                />
-              </Tooltip>
-              <Tooltip label="Confirm order" hasArrow>
-                <IconButton
-                  aria-label="Confirm"
-                  icon={<FiCheck />}
-                  size="sm"
-                  colorScheme="blue"
-                  onClick={() => confirmOrder.mutate(order)}
-                  isLoading={
-                    confirmOrder.isPending && confirmOrder.variables?.id === order.id
-                  }
-                />
-              </Tooltip>
-              <Tooltip label="Cancel order" hasArrow>
-                <IconButton
-                  aria-label="Cancel"
-                  icon={<FiX />}
-                  size="sm"
-                  colorScheme="red"
-                  variant="outline"
-                  onClick={() => cancelOrder.mutate(order.id)}
-                  isLoading={
-                    cancelOrder.isPending && cancelOrder.variables === order.id
-                  }
-                />
-              </Tooltip>
+              {hasOrderApproval && (
+                <Tooltip label="Record WhatsApp attempt" hasArrow>
+                  <IconButton
+                    aria-label="WhatsApp Attempt"
+                    icon={<IoLogoWhatsapp />}
+                    size="sm"
+                    colorScheme="whatsapp"
+                    variant="outline"
+                    onClick={() => incrementWhatsAppAttempt.mutate(order)}
+                    isLoading={
+                      incrementWhatsAppAttempt.isPending &&
+                      incrementWhatsAppAttempt.variables?.id === order.id
+                    }
+                  />
+                </Tooltip>
+              )}
+              {hasAutomatedDelivery && (
+                <Tooltip label="Confirm order" hasArrow>
+                  <IconButton
+                    aria-label="Confirm"
+                    icon={<FiCheck />}
+                    size="sm"
+                    colorScheme="blue"
+                    onClick={() => confirmOrder.mutate(order)}
+                    isLoading={
+                      confirmOrder.isPending && confirmOrder.variables?.id === order.id
+                    }
+                  />
+                </Tooltip>
+              )}
+              {hasOrderApproval && (
+                <Tooltip label="Cancel order" hasArrow>
+                  <IconButton
+                    aria-label="Cancel"
+                    icon={<FiX />}
+                    size="sm"
+                    colorScheme="red"
+                    variant="outline"
+                    onClick={() => cancelOrder.mutate(order.id)}
+                    isLoading={
+                      cancelOrder.isPending && cancelOrder.variables === order.id
+                    }
+                  />
+                </Tooltip>
+              )}
             </>
           )}
 

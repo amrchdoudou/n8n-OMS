@@ -21,6 +21,9 @@ import { useAuthStore } from "../store/authStore"
 
 import { useQueryClient } from "@tanstack/react-query"
 import { ORDERS_QUERY_KEY } from "../hooks/useOrders"
+import { PlansModal } from "./PlansModal"
+import { useDisclosure } from "@chakra-ui/react"
+import { FiStar } from "react-icons/fi"
 
 export function TopBar() {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -28,6 +31,7 @@ export function TopBar() {
   const logout = useAuthStore((s) => s.logout)
   const navigate = useNavigate()
   const qc = useQueryClient()
+  const { isOpen: isPlansOpen, onOpen: onPlansOpen, onClose: onPlansClose } = useDisclosure()
 
 
   const border = useColorModeValue("gray.200", "gray.700")
@@ -81,6 +85,16 @@ export function TopBar() {
 
         <HStack spacing={2}>
           <Button
+            leftIcon={<FiStar />}
+            colorScheme="brand"
+            variant="solid"
+            size="sm"
+            onClick={onPlansOpen}
+            display={{ base: "none", md: "inline-flex" }}
+          >
+            Plans
+          </Button>
+          <Button
             leftIcon={<FiRefreshCw />}
             variant="outline"
             size="sm"
@@ -126,6 +140,7 @@ export function TopBar() {
           </Menu>
         </HStack>
       </Flex>
+      <PlansModal isOpen={isPlansOpen} onClose={onPlansClose} />
     </Box>
   )
 }
