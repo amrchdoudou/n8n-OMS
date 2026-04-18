@@ -151,5 +151,40 @@ const GetUserByApiKey = async (apiKey: string) => {
     }
 };
 
-export { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder, GetOrdersByWebhookUrl, GetUserByApiKey };
+const UpdateOrderByTracking = async (userId: number, trackingId: string, data: UpdateOrderInput) => {
+    try {
+        const order = await prisma.order.findFirst({
+            where: {
+                userId: userId,
+                trackingId: trackingId,
+            },
+        });
+
+        if (!order) {
+            return null;
+        }
+
+        const updatedOrder: Order = await prisma.order.update({
+            where: { id: order.id },
+            data: {
+                ...(data.customer ? { customer: data.customer } : {}),
+                ...(data.phone ? { phone: data.phone } : {}),
+                ...(data.location ? { location: data.location } : {}),
+                ...(data.product ? { product: data.product } : {}),
+                ...(data.price !== undefined ? { price: data.price } : {}),
+                ...(data.currency ? { currency: data.currency } : {}),
+                ...(data.whatsappAttempts !== undefined ? { whatsappAttempts: data.whatsappAttempts } : {}),
+                ...(data.status ? { status: data.status } : {}),
+                ...(data.webhookUrl !== undefined ? { webhookUrl: data.webhookUrl } : {}),
+            },
+        });
+
+        return updatedOrder;
+    } catch (error) {
+        console.error("Error updating order by tracking:", error);
+        throw error;
+    }
+};
+
+export { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder, GetOrdersByWebhookUrl, GetUserByApiKey, UpdateOrderByTracking };
 export type { CreateOrderInput, UpdateOrderInput };

@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider      = "prisma-client"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "windows"]
 }
 
 datasource db {
@@ -39,6 +40,16 @@ enum OrderStatus {
   cancelled
   failed
   returned
+  READY
+  PICKUP
+  TO_STATION
+  IN_STATION
+  TO_WILAYA
+  PREPARING
+  IN_TRANSIT
+  SUSPENDED
+  DELIVERED
+  RETURNED
 }
 
 enum DeliveryType {

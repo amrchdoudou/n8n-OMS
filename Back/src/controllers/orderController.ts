@@ -1,6 +1,6 @@
 // src/controllers/orderController.ts
 import type { Request, Response } from "express";
-import { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder, GetOrdersByWebhookUrl, GetUserByApiKey } from "../db/Order_Db.js";
+import { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder, GetOrdersByWebhookUrl, GetUserByApiKey, UpdateOrderByTracking } from "../db/Order_Db.js";
 
 export const createOrder = async (req: Request, res: Response) => {
     try {
@@ -71,6 +71,27 @@ export const updateOrder = async (req: Request, res: Response) => {
         }
 
         const updatedOrder = await UpdateOrder(orderId, req.body);
+        res.json(updatedOrder);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to update order" });
+    }
+};
+
+export const updateOrderByTracking = async (req: Request, res: Response) => {
+    try {
+        const trackingId = req.params.trackingId as string;
+        const userId = (req as any).user.id;
+
+        if (!trackingId) {
+            return res.status(400).json({ error: "Tracking ID is required" });
+        }
+
+        const updatedOrder = await UpdateOrderByTracking(userId, trackingId, req.body);
+        
+        if (!updatedOrder) {
+            return res.status(404).json({ error: "Order not found with this tracking ID" });
+        }
+
         res.json(updatedOrder);
     } catch (err) {
         res.status(500).json({ error: "Failed to update order" });
