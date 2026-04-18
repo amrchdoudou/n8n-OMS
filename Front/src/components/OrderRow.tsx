@@ -35,9 +35,11 @@ export function OrderRow({ order, index }: Props) {
     incrementWhatsAppAttempt,
   } = useOrderActions()
 
-  const isPending = order.status.toLowerCase() === "pending" || order.status.toLowerCase() === "new"
+  const statusStr = (order.status || "").toLowerCase()
   const isFailedOrCancelled =
-    order.status === "cancelled" || order.status === "failed" || order.status === "returned"
+    statusStr.includes("cancel") || statusStr.includes("fail") || statusStr.includes("return")
+  const isCompleted = statusStr.includes("deliver") || statusStr.includes("confirm")
+  const isPending = !isFailedOrCancelled && !isCompleted
 
   const attempts = order.whatsappAttempts || 0
   const attemptColor =
