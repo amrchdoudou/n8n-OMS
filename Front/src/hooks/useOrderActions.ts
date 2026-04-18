@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useToast } from "@chakra-ui/react"
 import { ordersService } from "../services/ordersService"
+import { n8nClient } from "../services/n8nClient"
 import type { Order } from "../entities/Order"
 import { ORDERS_QUERY_KEY } from "./useOrders"
 
@@ -16,7 +17,26 @@ export function useOrderActions() {
   }
 
   const confirmOrder = useMutation({
-    mutationFn: (id: string) => ordersService.updateStatus(id, "confirmed"),
+    mutationFn: async (order: Order) => {
+      // Trigger n8n to push to delivery
+      try {
+        const n8nResponse = await n8nClient.post<{ trackingId?: string }>('', {
+          action: 'confirm',
+          order: order
+        });
+        
+        let trackingIdMatch = order.trackingId;
+        if (n8nResponse && n8nResponse.trackingId) {
+          trackingIdMatch = n8nResponse.trackingId;
+        }
+
+        return ordersService.updateStatus(order.id, "confirmed", { trackingId: trackingIdMatch });
+      } catch (err) {
+        console.error("N8N confirmation webhook failed:", err);
+        // Fallback to just confirming in our DB
+        return ordersService.updateStatus(order.id, "confirmed");
+      }
+    },
     onSuccess: (order: Order) => {
       invalidate()
       toast({
@@ -50,6 +70,20 @@ export function useOrderActions() {
   const incrementWhatsAppAttempt = useMutation({
     mutationFn: async (order: Order) => {
       const newAttempts = (order.whatsappAttempts || 0) + 1
+      
+      try {
+        const message = `Your order #${order.id} for ${order.product} worth ${order.price} ${order.currency} — reply YES to confirm or NO to cancel`;
+        // Send WhatsApp message webhook
+        await n8nClient.post('', {
+          action: 'whatsapp_attempt',
+          order: order,
+          message: message,
+          attempt: newAttempts
+        });
+      } catch (err) {
+        console.error("N8N WhatsApp webhook failed:", err);
+      }
+
       if (newAttempts >= 3) {
         return ordersService.updateStatus(order.id, "cancelled", { whatsappAttempts: newAttempts })
       } else {

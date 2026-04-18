@@ -151,9 +151,9 @@ export function OrderRow({ order, index }: Props) {
                   icon={<FiCheck />}
                   size="sm"
                   colorScheme="blue"
-                  onClick={() => confirmOrder.mutate(order.id)}
+                  onClick={() => confirmOrder.mutate(order)}
                   isLoading={
-                    confirmOrder.isPending && confirmOrder.variables === order.id
+                    confirmOrder.isPending && confirmOrder.variables?.id === order.id
                   }
                 />
               </Tooltip>
