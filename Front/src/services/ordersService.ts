@@ -162,9 +162,10 @@ export const ordersService = {
     }
 
     // Fall back to local mock data if not configured
-    return readLocalOrders().sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-    )
+    // return readLocalOrders().sort(
+    //   (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    // )
+    return []
   },
 
   async updateStatus(id: string, status: OrderStatus, patch: Partial<Order> = {}): Promise<Order> {
