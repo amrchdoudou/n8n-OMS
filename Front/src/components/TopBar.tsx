@@ -90,7 +90,6 @@ export function TopBar() {
             variant="solid"
             size="sm"
             onClick={onPlansOpen}
-            display={{ base: "none", md: "inline-flex" }}
           >
             Plans
           </Button>
