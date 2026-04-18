@@ -9,7 +9,6 @@ const ACCESS_TOKEN_KEY = "oms.accessToken"
 const REFRESH_TOKEN_KEY = "oms.refreshToken"
 const CURRENT_USER_KEY = "oms.currentUser"
 
-const setUser = useAuthStore((s) => s.setUser)
 
 interface LoginResponse {
   accessToken: string
@@ -77,7 +76,7 @@ export const authService = {
     //get the user info 
     const userInfo = await apiClient.get<User>('users/me')
     console.log(userInfo);
-    setUser(userInfo)
+    useAuthStore.getState().setUser(userInfo)
     
     
     const user = { ...tokens } as User & LoginResponse
