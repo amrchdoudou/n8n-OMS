@@ -1,18 +1,24 @@
 import { Box, Button, HStack, useColorModeValue } from "@chakra-ui/react"
-import type { OrderStatus } from "../entities/Order"
-import { ORDER_STATUSES } from "../entities/Order"
+import { getStatusLabel } from "../entities/Order"
 
 export type FilterValue = string
 
 interface Props {
   value: FilterValue
   onChange: (v: FilterValue) => void
-  counts: Partial<Record<FilterValue, number>>
+  counts: Partial<Record<string, number>>
+  /** List of unique statuses extracted from real order data */
+  statuses: string[]
 }
 
-export function FilterBar({ value, onChange, counts }: Props) {
+export function FilterBar({ value, onChange, counts, statuses }: Props) {
   const bg = useColorModeValue("white", "gray.800")
   const border = useColorModeValue("gray.200", "gray.700")
+
+  const filterOptions = [
+    { value: "all", label: "All" },
+    ...statuses.map((s) => ({ value: s, label: getStatusLabel(s) })),
+  ]
 
   return (
     <Box
@@ -24,7 +30,7 @@ export function FilterBar({ value, onChange, counts }: Props) {
       overflowX="auto"
     >
       <HStack spacing={2} minW="max-content">
-        {ORDER_STATUSES.map((s) => {
+        {filterOptions.map((s) => {
           const active = value === s.value
           const count = counts[s.value] ?? 0
           return (

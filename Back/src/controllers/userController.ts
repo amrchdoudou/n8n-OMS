@@ -69,5 +69,23 @@ export const UpdateUserContactInfo = async (
     console.error('UpdateUserContactInfo error:', err);
     res.status(500).json({ error: 'Failed to update contact info', details: err instanceof Error ? err.message : String(err) });
   }
+};
 
+export const getUserInfo = async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  if (isNaN(userId)) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    // Return user info without password
+    const { password, ...userInfo } = user;
+    res.json(userInfo);
+  } catch (err) {
+    console.error('getUserInfo error:', err);
+    res.status(500).json({ error: 'Failed to get user info' });
+  }
 };

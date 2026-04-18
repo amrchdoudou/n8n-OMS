@@ -15,10 +15,10 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react"
-import { FiMoon, FiPackage, FiRefreshCw, FiSend, FiSettings, FiSun } from "react-icons/fi"
+import { FiMoon, FiPackage, FiRefreshCw, FiSettings, FiSun } from "react-icons/fi"
 import { Link as RouterLink, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
-import { useOrderActions } from "../hooks/useOrderActions"
+
 import { useQueryClient } from "@tanstack/react-query"
 import { ORDERS_QUERY_KEY } from "../hooks/useOrders"
 
@@ -27,8 +27,8 @@ export function TopBar() {
   const user = useAuthStore((s) => s.user)
   const logout = useAuthStore((s) => s.logout)
   const navigate = useNavigate()
-  const { pushAllConfirmed } = useOrderActions()
   const qc = useQueryClient()
+
 
   const border = useColorModeValue("gray.200", "gray.700")
   const bg = useColorModeValue("white", "gray.800")
@@ -88,15 +88,6 @@ export function TopBar() {
             display={{ base: "none", md: "inline-flex" }}
           >
             Refresh Orders
-          </Button>
-          <Button
-            leftIcon={<FiSend />}
-            size="sm"
-            onClick={() => pushAllConfirmed.mutate()}
-            isLoading={pushAllConfirmed.isPending}
-            display={{ base: "none", lg: "inline-flex" }}
-          >
-            Push All Confirmed
           </Button>
           <IconButton
             aria-label="Toggle color mode"

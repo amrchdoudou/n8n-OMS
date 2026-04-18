@@ -13,21 +13,25 @@ import { StatsRow } from "../components/StatsRow"
 import { FilterBar, type FilterValue } from "../components/FilterBar"
 import { OrdersTable } from "../components/OrdersTable"
 import { useOrders } from "../hooks/useOrders"
-import { ORDER_STATUSES } from "../entities/Order"
 
 export function DashboardPage() {
   const { data: orders = [], isLoading } = useOrders()
   const [filter, setFilter] = useState<FilterValue>("all")
   const [showBanner, setShowBanner] = useState(true)
 
+  // Derive unique statuses from actual order data
+  const uniqueStatuses = useMemo(() => {
+    const statusSet = new Set(orders.map((o) => o.status))
+    return Array.from(statusSet).sort()
+  }, [orders])
+
   const counts = useMemo(() => {
-    const c: Partial<Record<FilterValue, number>> = { all: orders.length }
-    for (const s of ORDER_STATUSES) {
-      if (s.value === "all") continue
-      c[s.value] = orders.filter((o) => o.status === s.value).length
+    const c: Partial<Record<string, number>> = { all: orders.length }
+    for (const status of uniqueStatuses) {
+      c[status] = orders.filter((o) => o.status === status).length
     }
     return c
-  }, [orders])
+  }, [orders, uniqueStatuses])
 
   const filtered = useMemo(() => {
     if (filter === "all") return orders
@@ -58,7 +62,7 @@ export function DashboardPage() {
           )}
 
           <StatsRow orders={orders} />
-          <FilterBar value={filter} onChange={setFilter} counts={counts} />
+          <FilterBar value={filter} onChange={setFilter} counts={counts} statuses={uniqueStatuses} />
           <OrdersTable orders={filtered} isLoading={isLoading} />
         </Stack>
       </Container>

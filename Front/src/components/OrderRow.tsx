@@ -13,11 +13,9 @@ import {
 } from "@chakra-ui/react"
 import {
   FiCheck,
-  FiRefreshCw,
   FiRotateCcw,
   FiX,
 } from "react-icons/fi"
-import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa"
 import { IoLogoWhatsapp, IoCallSharp } from "react-icons/io5"
 
 import type { Order } from "../entities/Order"
@@ -31,17 +29,14 @@ interface Props {
 
 export function OrderRow({ order, index }: Props) {
   const {
-    sendWhatsApp,
     confirmOrder,
     cancelOrder,
     reopenOrder,
-    refreshTracking,
   } = useOrderActions()
 
   const isPending = order.status === "pending"
   const isFailedOrCancelled =
     order.status === "cancelled" || order.status === "failed" || order.status === "returned"
-  const isPushed = order.status === "pushed" || order.status === "in_transit"
 
   const attemptColor =
     order.whatsappAttempts === 0
@@ -134,21 +129,7 @@ export function OrderRow({ order, index }: Props) {
         <HStack spacing={1} justify="flex-end">
           {isPending && (
             <>
-              <Tooltip label="Send WhatsApp confirmation" hasArrow>
-                <IconButton
-                  aria-label="Send WhatsApp"
-                  icon={<IoLogoWhatsapp size="20" />}
-                  size="sm"
-                  variant="ghost"
-                  color="#25D366"
-                  _hover={{ bg: "rgba(37, 211, 102, 0.1)" }}
-                  onClick={() => sendWhatsApp.mutate(order.id)}
-                  isLoading={
-                    sendWhatsApp.isPending && sendWhatsApp.variables === order.id
-                  }
-                />
-              </Tooltip>
-              <Tooltip label="Confirm & push to delivery" hasArrow>
+              <Tooltip label="Confirm order" hasArrow>
                 <IconButton
                   aria-label="Confirm"
                   icon={<FiCheck />}
@@ -191,24 +172,7 @@ export function OrderRow({ order, index }: Props) {
             </Tooltip>
           )}
 
-          {isPushed && (
-            <Tooltip label="Refresh tracking from delivery" hasArrow>
-              <Button
-                leftIcon={<FiRefreshCw />}
-                size="sm"
-                colorScheme="gray"
-                variant="outline"
-                onClick={() => refreshTracking.mutate(order.id)}
-                isLoading={
-                  refreshTracking.isPending && refreshTracking.variables === order.id
-                }
-              >
-                Refresh
-              </Button>
-            </Tooltip>
-          )}
-
-          {order.status === "delivered" && (
+          {order.status.toLowerCase().includes("deliver") && (
             <Text fontSize="xs" color="green.500" fontWeight="500">
               Completed
             </Text>
