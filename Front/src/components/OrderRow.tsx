@@ -38,9 +38,9 @@ export function OrderRow({ order, index }: Props) {
 
   const { plan } = usePlanStore()
   
-  const showConfirm = plan === "normal" || plan === "premium"
+  const showConfirm = plan === "premium"
   const showCancel = plan === "normal" || plan === "premium"
-  const showWhatsApp = plan === "premium"
+  const showWhatsApp = plan === "normal" || plan === "premium"
 
   const isPending = order.status === "pending" || order.status === "new" || order.status === "true"
   const isFailedOrCancelled =
