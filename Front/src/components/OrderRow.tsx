@@ -32,6 +32,7 @@ export function OrderRow({ order, index }: Props) {
     confirmOrder,
     cancelOrder,
     reopenOrder,
+    incrementWhatsAppAttempt,
   } = useOrderActions()
 
   const isPending = order.status === "pending"
@@ -129,6 +130,20 @@ export function OrderRow({ order, index }: Props) {
         <HStack spacing={1} justify="flex-end">
           {isPending && (
             <>
+              <Tooltip label="Record WhatsApp attempt" hasArrow>
+                <IconButton
+                  aria-label="WhatsApp Attempt"
+                  icon={<IoLogoWhatsapp />}
+                  size="sm"
+                  colorScheme="whatsapp"
+                  variant="outline"
+                  onClick={() => incrementWhatsAppAttempt.mutate(order)}
+                  isLoading={
+                    incrementWhatsAppAttempt.isPending &&
+                    incrementWhatsAppAttempt.variables?.id === order.id
+                  }
+                />
+              </Tooltip>
               <Tooltip label="Confirm order" hasArrow>
                 <IconButton
                   aria-label="Confirm"
