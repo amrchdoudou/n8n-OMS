@@ -147,10 +147,67 @@ export const ordersService = {
   async list(): Promise<Order[]> {
     try {
       const remoteOrders = await apiClient.get<Order[]>('orders/by-webhook')
+      
+      // For orders with a trackingId, fetch their current status from the delivery provider
+      const settings = useSettingsStore.getState().settings
+      const apiKey = settings.deliveryApiKey
+      
+      if (apiKey) {
+        const updatedOrders = await Promise.all(
+          remoteOrders.map(async (order) => {
+            if (order.trackingId) {
+              try {
+                const trackingStatus = await this.fetchTrackingStatus(order.trackingId, apiKey)
+                if (trackingStatus && trackingStatus !== order.status) {
+                  // Update the order status in the backend
+                  try {
+                    await apiClient.put(`orders/by-tracking/${order.trackingId}`, { status: trackingStatus })
+                  } catch (updateErr) {
+                    console.error(`Failed to update status for order ${order.id}:`, updateErr)
+                  }
+                  return { ...order, status: trackingStatus }
+                }
+              } catch (err) {
+                console.error(`Failed to fetch tracking for order ${order.id}:`, err)
+              }
+            }
+            return order
+          })
+        )
+        return updatedOrders
+      }
+      
       return remoteOrders
     } catch (err) {
       console.error("Failed to fetch remote orders, returning empty array:", err)
       return []
+    }
+  },
+
+  async fetchTrackingStatus(trackingId: string, apiKey: string): Promise<string | null> {
+    try {
+      // Call Yalidine API to get parcel status by tracking ID
+      const response = await fetch(
+        `https://api.yalidine.app/v1/parcels/?tracking=${trackingId}`,
+        {
+          headers: {
+            'X-API-ID': apiKey.split(':')[0] || apiKey,
+            'X-API-TOKEN': apiKey.split(':')[1] || apiKey,
+          },
+        }
+      )
+      
+      if (!response.ok) return null
+      
+      const data = await response.json()
+      // Yalidine returns an array of parcels
+      if (data?.data && data.data.length > 0) {
+        return data.data[0].status ?? null
+      }
+      return null
+    } catch (err) {
+      console.error("Tracking API error:", err)
+      return null
     }
   },
 

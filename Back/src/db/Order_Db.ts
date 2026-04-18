@@ -1,5 +1,5 @@
 // src/db/Order_Db.ts
-import type { Order, OrderStatus, DeliveryType } from "../generated/prisma/client.js";
+import type { Order, DeliveryType } from "../generated/prisma/client.js";
 import { prisma } from "../Services/Common.js";
 
 interface CreateOrderInput {
@@ -25,7 +25,7 @@ interface UpdateOrderInput {
     price?: number;
     currency?: string;
     whatsappAttempts?: number;
-    status?: OrderStatus;
+    status?: string;
     trackingId?: string;
     deliveryType?: DeliveryType;
     webhookUrl?: string;

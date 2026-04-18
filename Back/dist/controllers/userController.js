@@ -55,7 +55,8 @@ export const UpdateUserContactInfo = async (req, res) => {
         res.json(updatedUser);
     }
     catch (err) {
-        res.status(500).json({ error: 'Failed to update contact info' });
+        console.error('UpdateUserContactInfo error:', err);
+        res.status(500).json({ error: 'Failed to update contact info', details: err instanceof Error ? err.message : String(err) });
     }
 };
 //# sourceMappingURL=userController.js.map

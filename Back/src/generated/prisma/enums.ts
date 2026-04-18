@@ -9,30 +9,6 @@
 * 🟢 You can import this file directly.
 */
 
-export const OrderStatus = {
-  pending: 'pending',
-  confirmed: 'confirmed',
-  pushed: 'pushed',
-  in_transit: 'in_transit',
-  delivered: 'delivered',
-  cancelled: 'cancelled',
-  failed: 'failed',
-  returned: 'returned',
-  READY: 'READY',
-  PICKUP: 'PICKUP',
-  TO_STATION: 'TO_STATION',
-  IN_STATION: 'IN_STATION',
-  TO_WILAYA: 'TO_WILAYA',
-  PREPARING: 'PREPARING',
-  IN_TRANSIT: 'IN_TRANSIT',
-  SUSPENDED: 'SUSPENDED',
-  DELIVERED: 'DELIVERED',
-  RETURNED: 'RETURNED'
-} as const
-
-export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
-
-
 export const DeliveryType = {
   domicile: 'domicile',
   stopdesk: 'stopdesk'

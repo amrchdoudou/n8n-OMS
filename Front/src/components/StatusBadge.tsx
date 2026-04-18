@@ -1,15 +1,14 @@
 import { Badge } from "@chakra-ui/react"
-import type { OrderStatus } from "../entities/Order"
-import { STATUS_COLORS, STATUS_LABELS } from "../entities/Order"
+import { getStatusColor, getStatusLabel } from "../entities/Order"
 
 interface Props {
-  status: OrderStatus
+  status: string
 }
 
 export function StatusBadge({ status }: Props) {
   return (
     <Badge
-      colorScheme={STATUS_COLORS[status]}
+      colorScheme={getStatusColor(status)}
       variant={status === "failed" ? "solid" : "subtle"}
       px={2}
       py={1}
@@ -18,7 +17,7 @@ export function StatusBadge({ status }: Props) {
       textTransform="none"
       fontWeight="600"
     >
-      {STATUS_LABELS[status]}
+      {getStatusLabel(status)}
     </Badge>
   )
 }

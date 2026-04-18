@@ -2,7 +2,7 @@ import { Box, Button, HStack, useColorModeValue } from "@chakra-ui/react"
 import type { OrderStatus } from "../entities/Order"
 import { ORDER_STATUSES } from "../entities/Order"
 
-export type FilterValue = OrderStatus | "all"
+export type FilterValue = string
 
 interface Props {
   value: FilterValue

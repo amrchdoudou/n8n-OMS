@@ -1,22 +1,4 @@
-export type OrderStatus =
-  | "pending"
-  | "confirmed"
-  | "pushed"
-  | "in_transit"
-  | "delivered"
-  | "cancelled"
-  | "failed"
-  | "returned"
-  | "READY"
-  | "PICKUP"
-  | "TO_STATION"
-  | "IN_STATION"
-  | "TO_WILAYA"
-  | "PREPARING"
-  | "IN_TRANSIT"
-  | "SUSPENDED"
-  | "DELIVERED"
-  | "RETURNED"
+export type OrderStatus = string
 
 export type DeliveryType = "domicile" | "stopdesk"
 
@@ -37,7 +19,7 @@ export interface Order {
 
 }
 
-export const ORDER_STATUSES: { value: OrderStatus | "all"; label: string }[] = [
+export const ORDER_STATUSES: { value: string; label: string }[] = [
   { value: "all", label: "All" },
   { value: "pending", label: "Pending" },
   { value: "confirmed", label: "Confirmed" },
@@ -47,19 +29,9 @@ export const ORDER_STATUSES: { value: OrderStatus | "all"; label: string }[] = [
   { value: "delivered", label: "Delivered" },
   { value: "returned", label: "Returned" },
   { value: "failed", label: "Failed" },
-  { value: "READY", label: "Ready" },
-  { value: "PICKUP", label: "Pickup" },
-  { value: "TO_STATION", label: "To Station" },
-  { value: "IN_STATION", label: "In Station" },
-  { value: "TO_WILAYA", label: "To Wilaya" },
-  { value: "PREPARING", label: "Preparing" },
-  { value: "IN_TRANSIT", label: "In Transit (DHD)" },
-  { value: "SUSPENDED", label: "Suspended" },
-  { value: "DELIVERED", label: "Delivered (DHD)" },
-  { value: "RETURNED", label: "Returned (DHD)" },
 ]
 
-export const STATUS_COLORS: Record<OrderStatus, string> = {
+const KNOWN_STATUS_COLORS: Record<string, string> = {
   pending: "yellow",
   confirmed: "blue",
   pushed: "purple",
@@ -68,19 +40,9 @@ export const STATUS_COLORS: Record<OrderStatus, string> = {
   cancelled: "red",
   failed: "red",
   returned: "orange",
-  READY: "blue",
-  PICKUP: "teal",
-  TO_STATION: "purple",
-  IN_STATION: "indigo",
-  TO_WILAYA: "pink",
-  PREPARING: "orange",
-  IN_TRANSIT: "cyan",
-  SUSPENDED: "gray",
-  DELIVERED: "green",
-  RETURNED: "red",
 }
 
-export const STATUS_LABELS: Record<OrderStatus, string> = {
+const KNOWN_STATUS_LABELS: Record<string, string> = {
   pending: "Pending",
   confirmed: "Confirmed",
   pushed: "Pushed to Delivery",
@@ -89,14 +51,23 @@ export const STATUS_LABELS: Record<OrderStatus, string> = {
   cancelled: "Cancelled",
   failed: "Failed",
   returned: "Returned",
-  READY: "Ready",
-  PICKUP: "Pickup",
-  TO_STATION: "To Station",
-  IN_STATION: "In Station",
-  TO_WILAYA: "To Wilaya",
-  PREPARING: "Preparing",
-  IN_TRANSIT: "In Transit (DHD)",
-  SUSPENDED: "Suspended",
-  DELIVERED: "Delivered (DHD)",
-  RETURNED: "Returned (DHD)",
 }
+
+/** Returns a color for any status string, with a fallback for unknown statuses */
+export function getStatusColor(status: string): string {
+  return KNOWN_STATUS_COLORS[status] ?? KNOWN_STATUS_COLORS[status.toLowerCase()] ?? "gray"
+}
+
+/** Returns a human-readable label for any status string */
+export function getStatusLabel(status: string): string {
+  return KNOWN_STATUS_LABELS[status] ?? KNOWN_STATUS_LABELS[status.toLowerCase()] ?? status.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase())
+}
+
+// Keep backwards compatibility for components that reference these directly
+export const STATUS_COLORS = new Proxy({} as Record<string, string>, {
+  get: (_target, prop: string) => getStatusColor(prop),
+})
+
+export const STATUS_LABELS = new Proxy({} as Record<string, string>, {
+  get: (_target, prop: string) => getStatusLabel(prop),
+})

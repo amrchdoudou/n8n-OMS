@@ -50,7 +50,7 @@ export type OrderMinAggregateOutputType = {
   price: number | null
   currency: string | null
   whatsappAttempts: number | null
-  status: $Enums.OrderStatus | null
+  status: string | null
   trackingId: string | null
   deliveryType: $Enums.DeliveryType | null
   webhookUrl: string | null
@@ -68,7 +68,7 @@ export type OrderMaxAggregateOutputType = {
   price: number | null
   currency: string | null
   whatsappAttempts: number | null
-  status: $Enums.OrderStatus | null
+  status: string | null
   trackingId: string | null
   deliveryType: $Enums.DeliveryType | null
   webhookUrl: string | null
@@ -261,7 +261,7 @@ export type OrderGroupByOutputType = {
   price: number
   currency: string
   whatsappAttempts: number
-  status: $Enums.OrderStatus
+  status: string
   trackingId: string | null
   deliveryType: $Enums.DeliveryType
   webhookUrl: string | null
@@ -302,7 +302,7 @@ export type OrderWhereInput = {
   price?: Prisma.FloatFilter<"Order"> | number
   currency?: Prisma.StringFilter<"Order"> | string
   whatsappAttempts?: Prisma.IntFilter<"Order"> | number
-  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+  status?: Prisma.StringFilter<"Order"> | string
   trackingId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFilter<"Order"> | $Enums.DeliveryType
   webhookUrl?: Prisma.StringNullableFilter<"Order"> | string | null
@@ -345,7 +345,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   price?: Prisma.FloatFilter<"Order"> | number
   currency?: Prisma.StringFilter<"Order"> | string
   whatsappAttempts?: Prisma.IntFilter<"Order"> | number
-  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+  status?: Prisma.StringFilter<"Order"> | string
   trackingId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFilter<"Order"> | $Enums.DeliveryType
   webhookUrl?: Prisma.StringNullableFilter<"Order"> | string | null
@@ -391,7 +391,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   price?: Prisma.FloatWithAggregatesFilter<"Order"> | number
   currency?: Prisma.StringWithAggregatesFilter<"Order"> | string
   whatsappAttempts?: Prisma.IntWithAggregatesFilter<"Order"> | number
-  status?: Prisma.EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
+  status?: Prisma.StringWithAggregatesFilter<"Order"> | string
   trackingId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   deliveryType?: Prisma.EnumDeliveryTypeWithAggregatesFilter<"Order"> | $Enums.DeliveryType
   webhookUrl?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
@@ -408,7 +408,7 @@ export type OrderCreateInput = {
   price: number
   currency?: string
   whatsappAttempts?: number
-  status?: $Enums.OrderStatus
+  status?: string
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
@@ -427,7 +427,7 @@ export type OrderUncheckedCreateInput = {
   price: number
   currency?: string
   whatsappAttempts?: number
-  status?: $Enums.OrderStatus
+  status?: string
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
@@ -445,7 +445,7 @@ export type OrderUpdateInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -464,7 +464,7 @@ export type OrderUncheckedUpdateInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -483,7 +483,7 @@ export type OrderCreateManyInput = {
   price: number
   currency?: string
   whatsappAttempts?: number
-  status?: $Enums.OrderStatus
+  status?: string
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
@@ -500,7 +500,7 @@ export type OrderUpdateManyMutationInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -517,7 +517,7 @@ export type OrderUncheckedUpdateManyInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -672,10 +672,6 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type EnumOrderStatusFieldUpdateOperationsInput = {
-  set?: $Enums.OrderStatus
-}
-
 export type EnumDeliveryTypeFieldUpdateOperationsInput = {
   set?: $Enums.DeliveryType
 }
@@ -689,7 +685,7 @@ export type OrderCreateWithoutUserInput = {
   price: number
   currency?: string
   whatsappAttempts?: number
-  status?: $Enums.OrderStatus
+  status?: string
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
@@ -707,7 +703,7 @@ export type OrderUncheckedCreateWithoutUserInput = {
   price: number
   currency?: string
   whatsappAttempts?: number
-  status?: $Enums.OrderStatus
+  status?: string
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
@@ -754,7 +750,7 @@ export type OrderScalarWhereInput = {
   price?: Prisma.FloatFilter<"Order"> | number
   currency?: Prisma.StringFilter<"Order"> | string
   whatsappAttempts?: Prisma.IntFilter<"Order"> | number
-  status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
+  status?: Prisma.StringFilter<"Order"> | string
   trackingId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFilter<"Order"> | $Enums.DeliveryType
   webhookUrl?: Prisma.StringNullableFilter<"Order"> | string | null
@@ -771,7 +767,7 @@ export type OrderCreateWithoutSuppliersInput = {
   price: number
   currency?: string
   whatsappAttempts?: number
-  status?: $Enums.OrderStatus
+  status?: string
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
@@ -789,7 +785,7 @@ export type OrderUncheckedCreateWithoutSuppliersInput = {
   price: number
   currency?: string
   whatsappAttempts?: number
-  status?: $Enums.OrderStatus
+  status?: string
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
@@ -822,7 +818,7 @@ export type OrderUpdateWithoutSuppliersInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -840,7 +836,7 @@ export type OrderUncheckedUpdateWithoutSuppliersInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -858,7 +854,7 @@ export type OrderCreateManyUserInput = {
   price: number
   currency?: string
   whatsappAttempts?: number
-  status?: $Enums.OrderStatus
+  status?: string
   trackingId?: string | null
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
@@ -874,7 +870,7 @@ export type OrderUpdateWithoutUserInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -892,7 +888,7 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -910,7 +906,7 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1054,7 +1050,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     price: number
     currency: string
     whatsappAttempts: number
-    status: $Enums.OrderStatus
+    status: string
     trackingId: string | null
     deliveryType: $Enums.DeliveryType
     webhookUrl: string | null
@@ -1494,7 +1490,7 @@ export interface OrderFieldRefs {
   readonly price: Prisma.FieldRef<"Order", 'Float'>
   readonly currency: Prisma.FieldRef<"Order", 'String'>
   readonly whatsappAttempts: Prisma.FieldRef<"Order", 'Int'>
-  readonly status: Prisma.FieldRef<"Order", 'OrderStatus'>
+  readonly status: Prisma.FieldRef<"Order", 'String'>
   readonly trackingId: Prisma.FieldRef<"Order", 'String'>
   readonly deliveryType: Prisma.FieldRef<"Order", 'DeliveryType'>
   readonly webhookUrl: Prisma.FieldRef<"Order", 'String'>

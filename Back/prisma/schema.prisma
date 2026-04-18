@@ -38,26 +38,7 @@ model Supplier {
   suppliers Json
 }
 
-enum OrderStatus {
-  pending
-  confirmed
-  pushed
-  in_transit
-  delivered
-  cancelled
-  failed
-  returned
-  READY
-  PICKUP
-  TO_STATION
-  IN_STATION
-  TO_WILAYA
-  PREPARING
-  IN_TRANSIT
-  SUSPENDED
-  DELIVERED
-  RETURNED
-}
+
 
 enum DeliveryType {
   domicile
@@ -74,7 +55,7 @@ model Order {
   price            Float
   currency         String       @default("DZD")
   whatsappAttempts Int          @default(0)
-  status           OrderStatus  @default(pending)
+  status           String       @default("pending")
   trackingId       String?
   deliveryType     DeliveryType @default(domicile)
   webhookUrl       String?

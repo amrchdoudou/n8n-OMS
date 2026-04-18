@@ -46,7 +46,7 @@ export function SetupPage() {
   const [webhookStock, setWebhookStock] = useState(user?.webhookStock || "")
 
   const { webhookUrl, isLoading: isWebhookLoading } = useWebhookUrl()
-  const shopifyUrl = webhookUrl || "https://bendaoud-bilal.app.n8n.cloud/webhook-test/fetch"
+  const shopifyUrl = webhookUrl || "https://bendaoud-bilal.app.n8n.cloud/webhook-test/fetchh"
   const { hasCopied, onCopy } = useClipboard(shopifyUrl)
 
   const cardBg = useColorModeValue("white", "gray.800")
