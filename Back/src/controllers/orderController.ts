@@ -93,10 +93,12 @@ export const updateOrderByTracking = async (req: Request, res: Response) => {
         }
 
         res.json(updatedOrder);
-    } catch (err) {
-        res.status(500).json({ error: "Failed to update order" });
+    } catch (err: any) {
+        console.error("Update error:", err);
+        res.status(500).json({ error: "Failed to update order", details: err.message });
     }
 };
+
 
 export const deleteOrder = async (req: Request, res: Response) => {
     try {
