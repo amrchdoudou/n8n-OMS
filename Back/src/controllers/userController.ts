@@ -66,7 +66,8 @@ export const UpdateUserContactInfo = async (
     const updatedUser = await UpdateContactInfoInfo(userId, number, storeName, apiKey, deliveryProvider, webhookUrl, webhookStock);
     res.json(updatedUser);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to update contact info' });
+    console.error('UpdateUserContactInfo error:', err);
+    res.status(500).json({ error: 'Failed to update contact info', details: err instanceof Error ? err.message : String(err) });
   }
 
 };
