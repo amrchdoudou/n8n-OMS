@@ -129,7 +129,7 @@ export function OrderRow({ order, index }: Props) {
       </Td>
       <Td>
         <HStack spacing={1} justify="flex-end">
-          {attempts < 3 && !isFailedOrCancelled && !order.status.toLowerCase().includes("deliver") && (
+          { (
             <Tooltip label="Record WhatsApp attempt" hasArrow>
               <IconButton
                 aria-label="WhatsApp Attempt"
