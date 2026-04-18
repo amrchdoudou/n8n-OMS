@@ -145,27 +145,13 @@ function getWebhooks() {
 
 export const ordersService = {
   async list(): Promise<Order[]> {
-    const settings = useSettingsStore.getState().settings
-    const webhookUrl = settings.shopifyWebhookUrl
-    const apiKey = settings.deliveryApiKey
-
-    if (webhookUrl && apiKey) {
-      try {
-        const remoteOrders = await apiClient.get<Order[]>('orders/by-webhook', {
-          params: { webhookUrl },
-          headers: { 'x-api-key': apiKey },
-        })
-        return remoteOrders
-      } catch (err) {
-        console.error("Failed to fetch remote orders, falling back to local:", err)
-      }
+    try {
+      const remoteOrders = await apiClient.get<Order[]>('orders/by-webhook')
+      return remoteOrders
+    } catch (err) {
+      console.error("Failed to fetch remote orders, returning empty array:", err)
+      return []
     }
-
-    // Fall back to local mock data if not configured
-    // return readLocalOrders().sort(
-    //   (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-    // )
-    return []
   },
 
   async updateStatus(id: string, status: OrderStatus, patch: Partial<Order> = {}): Promise<Order> {

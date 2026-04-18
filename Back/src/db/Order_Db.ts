@@ -121,11 +121,10 @@ const DeleteOrder = async (orderId: number) => {
     }
 };
 
-const GetOrdersByWebhookUrl = async (userId: number, webhookUrl: string) => {
+const GetOrdersByWebhookUrl = async (webhookUrl: string) => {
     try {
         const orders = await prisma.order.findMany({
             where: {
-                userId: userId,
                 webhookUrl: webhookUrl,
             },
             orderBy: { createdAt: "desc" },

@@ -127,33 +127,23 @@ export const deleteOrder = async (req: Request, res: Response) => {
 
 import { prisma } from "../Services/Common.js";
 
-// GET /orders/by-webhook?webhookUrl=...
-// Authenticates via JWT and API key in header (x-api-key), checks if user owns the webhook,
+// GET /orders/by-webhook
+// Authenticates via JWT, checks if user has a configured webhookUrl,
 // and returns all orders with that webhookUrl
 export const getOrdersByWebhook = async (req: Request, res: Response) => {
     try {
         const userId = (req as any).user.id;
-        const webhookUrl = req.query.webhookUrl as string;
-        const apiKey = req.headers['x-api-key'] as string;
-
-        if (!webhookUrl || !apiKey) {
-            return res.status(400).json({ error: "webhookUrl query parameter and x-api-key header are required" });
-        }
 
         const user = await prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
 
-        if (user.apiKey !== apiKey) {
-            return res.status(401).json({ error: "Invalid API key" });
+        if (!user.webhookUrl) {
+            return res.status(400).json({ error: "User does not have a configured webhook URL" });
         }
 
-        if (user.webhookUrl !== webhookUrl) {
-            return res.status(403).json({ error: "Webhook URL mismatch" });
-        }
-
-        const orders = await GetOrdersByWebhookUrl(userId, webhookUrl);
+        const orders = await GetOrdersByWebhookUrl(user.webhookUrl);
         res.json(orders);
     } catch (err) {
         res.status(500).json({ error: "Failed to fetch orders by webhook" });
