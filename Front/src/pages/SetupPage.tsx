@@ -28,9 +28,9 @@ import { FiCheck, FiCopy, FiPackage } from "react-icons/fi"
 import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuthStore } from "../store/authStore"
-import { useSettingsStore, getShopifyWebhookUrl } from "../store/settingsStore"
+import { useSettingsStore } from "../store/settingsStore"
 import { DELIVERY_PROVIDERS } from "../entities/Settings"
-import { useAuth } from "../hooks/useAuth"
+import { useAuth, useWebhookUrl } from "../hooks/useAuth"
 
 export function SetupPage() {
   const user = useAuthStore((s) => s.user)
@@ -43,11 +43,10 @@ export function SetupPage() {
   const [whatsappNumber, setWhatsappNumber] = useState(settings.whatsappNumber)
   const [deliveryProvider, setDeliveryProvider] = useState(settings.deliveryProvider)
   const [deliveryApiKey, setDeliveryApiKey] = useState(settings.deliveryApiKey)
+  const [webhookStock, setWebhookStock] = useState(user?.webhookStock || "")
 
-  const shopifyUrl = useMemo(
-    () => getShopifyWebhookUrl(user?.username ?? "store"),
-    [user?.username],
-  )
+  const { webhookUrl, isLoading: isWebhookLoading } = useWebhookUrl()
+  const shopifyUrl = webhookUrl || ""
   const { hasCopied, onCopy } = useClipboard(shopifyUrl)
 
   const cardBg = useColorModeValue("white", "gray.800")
@@ -64,6 +63,7 @@ export function SetupPage() {
       apiKey: deliveryApiKey,
       deliveryProvider,
       webhookUrl: shopifyUrl,
+      webhookStock: webhookStock,
     })
 
     // Also update local settings store
@@ -133,7 +133,13 @@ export function SetupPage() {
                   <FormControl>
                     <FormLabel fontSize="sm">Shopify Webhook URL</FormLabel>
                     <InputGroup>
-                      <Input value={shopifyUrl} isReadOnly fontFamily="mono" fontSize="sm" />
+                      <Input 
+                        value={isWebhookLoading ? "Loading..." : shopifyUrl} 
+                        isReadOnly 
+                        fontFamily="mono" 
+                        fontSize="sm" 
+                        color={isWebhookLoading ? "gray.500" : "inherit"}
+                      />
                       <InputRightElement width="3rem">
                         <IconButton
                           aria-label="Copy URL"
@@ -141,12 +147,25 @@ export function SetupPage() {
                           size="sm"
                           variant="ghost"
                           onClick={onCopy}
+                          isDisabled={isWebhookLoading || !shopifyUrl}
                         />
                       </InputRightElement>
                     </InputGroup>
                     <FormHelperText fontSize="xs">
                       Paste this into Shopify → Settings → Notifications → Webhooks (Order
                       created).
+                    </FormHelperText>
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel fontSize="sm">Webhook Stock</FormLabel>
+                    <Input
+                      value={webhookStock}
+                      onChange={(e) => setWebhookStock(e.target.value)}
+                      placeholder="https://..."
+                    />
+                    <FormHelperText fontSize="xs">
+                      The webhook endpoint for processing stock updates.
                     </FormHelperText>
                   </FormControl>
 

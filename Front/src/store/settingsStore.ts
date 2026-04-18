@@ -36,8 +36,4 @@ export const useSettingsStore = create<SettingsState>()(
   ),
 )
 
-export function getShopifyWebhookUrl(username: string): string {
-  const base =
-    typeof window !== "undefined" ? `${window.location.origin}` : "https://your-oms.app"
-  return `${base}/api/shopify-webhook/${encodeURIComponent(username || "store")}`
-}
+

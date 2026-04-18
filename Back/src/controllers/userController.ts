@@ -1,6 +1,7 @@
 // src/controllers/userController.ts
 import type { Request, Response } from 'express';
 import { updateUserInfo, CreateUser, CheckUserPassword , UpdateContactInfoInfo } from '../db/User_Db.js';
+import { prisma } from '../Services/Common.js';
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -60,13 +61,12 @@ export const UpdateUserContactInfo = async (
   if (isNaN(userId)) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  const { number, storeName, apiKey, deliveryProvider, webhookUrl } = req.body;
+  const { number, storeName, apiKey, deliveryProvider, webhookUrl, webhookStock } = req.body;
   try {
-    const updatedUser = await UpdateContactInfoInfo(userId, number, storeName, apiKey, deliveryProvider, webhookUrl);
+    const updatedUser = await UpdateContactInfoInfo(userId, number, storeName, apiKey, deliveryProvider, webhookUrl, webhookStock);
     res.json(updatedUser);
   } catch (err) {
     res.status(500).json({ error: 'Failed to update contact info' });
   }
 
 };
-    

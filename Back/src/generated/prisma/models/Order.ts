@@ -309,6 +309,7 @@ export type OrderWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   userId?: Prisma.IntFilter<"Order"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  suppliers?: Prisma.SupplierListRelationFilter
 }
 
 export type OrderOrderByWithRelationInput = {
@@ -328,6 +329,7 @@ export type OrderOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  suppliers?: Prisma.SupplierOrderByRelationAggregateInput
 }
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
@@ -350,6 +352,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   userId?: Prisma.IntFilter<"Order"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  suppliers?: Prisma.SupplierListRelationFilter
 }, "id">
 
 export type OrderOrderByWithAggregationInput = {
@@ -411,6 +414,7 @@ export type OrderCreateInput = {
   webhookUrl?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
+  suppliers?: Prisma.SupplierCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUncheckedCreateInput = {
@@ -429,6 +433,7 @@ export type OrderUncheckedCreateInput = {
   webhookUrl?: string | null
   createdAt?: Date | string
   userId: number
+  suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUpdateInput = {
@@ -446,6 +451,7 @@ export type OrderUpdateInput = {
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
+  suppliers?: Prisma.SupplierUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateInput = {
@@ -464,6 +470,7 @@ export type OrderUncheckedUpdateInput = {
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderCreateManyInput = {
@@ -526,6 +533,11 @@ export type OrderListRelationFilter = {
 
 export type OrderOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type OrderScalarRelationFilter = {
+  is?: Prisma.OrderWhereInput
+  isNot?: Prisma.OrderWhereInput
 }
 
 export type OrderCountOrderByAggregateInput = {
@@ -638,6 +650,20 @@ export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
 }
 
+export type OrderCreateNestedOneWithoutSuppliersInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutSuppliersInput, Prisma.OrderUncheckedCreateWithoutSuppliersInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutSuppliersInput
+  connect?: Prisma.OrderWhereUniqueInput
+}
+
+export type OrderUpdateOneRequiredWithoutSuppliersNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutSuppliersInput, Prisma.OrderUncheckedCreateWithoutSuppliersInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutSuppliersInput
+  upsert?: Prisma.OrderUpsertWithoutSuppliersInput
+  connect?: Prisma.OrderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutSuppliersInput, Prisma.OrderUpdateWithoutSuppliersInput>, Prisma.OrderUncheckedUpdateWithoutSuppliersInput>
+}
+
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -668,6 +694,7 @@ export type OrderCreateWithoutUserInput = {
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
   createdAt?: Date | string
+  suppliers?: Prisma.SupplierCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutUserInput = {
@@ -685,6 +712,7 @@ export type OrderUncheckedCreateWithoutUserInput = {
   deliveryType?: $Enums.DeliveryType
   webhookUrl?: string | null
   createdAt?: Date | string
+  suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutUserInput = {
@@ -734,6 +762,92 @@ export type OrderScalarWhereInput = {
   userId?: Prisma.IntFilter<"Order"> | number
 }
 
+export type OrderCreateWithoutSuppliersInput = {
+  shopifyId?: string | null
+  customer: string
+  phone: string
+  location: string
+  product: string
+  price: number
+  currency?: string
+  whatsappAttempts?: number
+  status?: $Enums.OrderStatus
+  trackingId?: string | null
+  deliveryType?: $Enums.DeliveryType
+  webhookUrl?: string | null
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutOrdersInput
+}
+
+export type OrderUncheckedCreateWithoutSuppliersInput = {
+  id?: number
+  shopifyId?: string | null
+  customer: string
+  phone: string
+  location: string
+  product: string
+  price: number
+  currency?: string
+  whatsappAttempts?: number
+  status?: $Enums.OrderStatus
+  trackingId?: string | null
+  deliveryType?: $Enums.DeliveryType
+  webhookUrl?: string | null
+  createdAt?: Date | string
+  userId: number
+}
+
+export type OrderCreateOrConnectWithoutSuppliersInput = {
+  where: Prisma.OrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderCreateWithoutSuppliersInput, Prisma.OrderUncheckedCreateWithoutSuppliersInput>
+}
+
+export type OrderUpsertWithoutSuppliersInput = {
+  update: Prisma.XOR<Prisma.OrderUpdateWithoutSuppliersInput, Prisma.OrderUncheckedUpdateWithoutSuppliersInput>
+  create: Prisma.XOR<Prisma.OrderCreateWithoutSuppliersInput, Prisma.OrderUncheckedCreateWithoutSuppliersInput>
+  where?: Prisma.OrderWhereInput
+}
+
+export type OrderUpdateToOneWithWhereWithoutSuppliersInput = {
+  where?: Prisma.OrderWhereInput
+  data: Prisma.XOR<Prisma.OrderUpdateWithoutSuppliersInput, Prisma.OrderUncheckedUpdateWithoutSuppliersInput>
+}
+
+export type OrderUpdateWithoutSuppliersInput = {
+  shopifyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  product?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
+}
+
+export type OrderUncheckedUpdateWithoutSuppliersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  shopifyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customer?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  product?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  whatsappAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  trackingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
+  webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
 export type OrderCreateManyUserInput = {
   id?: number
   shopifyId?: string | null
@@ -765,6 +879,7 @@ export type OrderUpdateWithoutUserInput = {
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  suppliers?: Prisma.SupplierUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutUserInput = {
@@ -782,6 +897,7 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   deliveryType?: Prisma.EnumDeliveryTypeFieldUpdateOperationsInput | $Enums.DeliveryType
   webhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateManyWithoutUserInput = {
@@ -802,6 +918,35 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
 }
 
 
+/**
+ * Count Type OrderCountOutputType
+ */
+
+export type OrderCountOutputType = {
+  suppliers: number
+}
+
+export type OrderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  suppliers?: boolean | OrderCountOutputTypeCountSuppliersArgs
+}
+
+/**
+ * OrderCountOutputType without action
+ */
+export type OrderCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrderCountOutputType
+   */
+  select?: Prisma.OrderCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * OrderCountOutputType without action
+ */
+export type OrderCountOutputTypeCountSuppliersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SupplierWhereInput
+}
+
 
 export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -820,6 +965,8 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  suppliers?: boolean | Prisma.Order$suppliersArgs<ExtArgs>
+  _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
 export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -881,6 +1028,8 @@ export type OrderSelectScalar = {
 export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shopifyId" | "customer" | "phone" | "location" | "product" | "price" | "currency" | "whatsappAttempts" | "status" | "trackingId" | "deliveryType" | "webhookUrl" | "createdAt" | "userId", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  suppliers?: boolean | Prisma.Order$suppliersArgs<ExtArgs>
+  _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -893,6 +1042,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Order"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    suppliers: Prisma.$SupplierPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1305,6 +1455,7 @@ readonly fields: OrderFieldRefs;
 export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  suppliers<T extends Prisma.Order$suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$suppliersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1742,6 +1893,30 @@ export type OrderDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Orders to delete.
    */
   limit?: number
+}
+
+/**
+ * Order.suppliers
+ */
+export type Order$suppliersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Supplier
+   */
+  select?: Prisma.SupplierSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Supplier
+   */
+  omit?: Prisma.SupplierOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplierInclude<ExtArgs> | null
+  where?: Prisma.SupplierWhereInput
+  orderBy?: Prisma.SupplierOrderByWithRelationInput | Prisma.SupplierOrderByWithRelationInput[]
+  cursor?: Prisma.SupplierWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SupplierScalarFieldEnum | Prisma.SupplierScalarFieldEnum[]
 }
 
 /**

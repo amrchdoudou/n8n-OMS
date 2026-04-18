@@ -27,8 +27,15 @@ model User {
   deliveryProvider String?
   apiKey String?
   webhookUrl String?
-
+  webhookStock String?
   orders    Order[]
+}
+
+model Supplier {
+  id        Int      @id @default(autoincrement())
+  orderId   Int      
+  order     Order    @relation(fields: [orderId], references: [id])
+  suppliers Json
 }
 
 enum OrderStatus {
@@ -75,4 +82,6 @@ model Order {
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
+
+  suppliers Supplier[]
 }

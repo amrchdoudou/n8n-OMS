@@ -68,7 +68,7 @@ const updateUserInfo = async (userId: number, Email?: string, Password?: string,
 };
 
 
-const UpdateContactInfoInfo = async (userId: number, number?: string, storeName?: string , apiKey?: string, deliveryProvider?: string, webhookUrl?: string) => {
+const UpdateContactInfoInfo = async (userId: number, number?: string, storeName?: string , apiKey?: string, deliveryProvider?: string, webhookUrl?: string, webhookStock?: string) => {
     try {
         const updatedUser: User = await prisma.user.update({
             where: { id: userId },
@@ -79,6 +79,7 @@ const UpdateContactInfoInfo = async (userId: number, number?: string, storeName?
                 ...(apiKey ? { apiKey: apiKey } : {}),
                 ...(deliveryProvider ? { deliveryProvider: deliveryProvider } : {}),
                 ...(webhookUrl ? { webhookUrl: webhookUrl } : {}),
+                ...(webhookStock ? { webhookStock: webhookStock } : {}),
 
             },
         });

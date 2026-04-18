@@ -1,5 +1,8 @@
 import { apiClient } from "./apiClient"
 import type { User } from "../entities/User"
+import axios from "axios"
+
+import { n8nClient } from "./n8nClient"
 
 const ACCESS_TOKEN_KEY = "oms.accessToken"
 const REFRESH_TOKEN_KEY = "oms.refreshToken"
@@ -23,6 +26,7 @@ interface UpdateContactInfoPayload {
   apiKey: string
   deliveryProvider: string
   webhookUrl: string
+  webhookStock: string
 }
 
 export const authService = {
@@ -43,6 +47,19 @@ export const authService = {
     const user = await apiClient.put<User>("users/update-contact-info", payload)
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user))
     return user
+  },
+
+  async getWebhookUrl(): Promise<{ webhookUrl: string }> {
+    // Call the external n8n webhook using the dedicated n8n api client
+    // The base URL for the n8nClient is already set to process the env variable!
+    const response = await n8nClient.get<{ url?: string; webhookUrl?: string } | string>("")
+    
+    // Attempt to handle both plain text URL response and JSON response
+    const data = response;
+    if (typeof data === "string") {
+      return { webhookUrl: data };
+    }
+    return { webhookUrl: data.webhookUrl || data.url || "" };
   },
 
   async login(credentials: { email: string; password: string }): Promise<User & LoginResponse> {

@@ -4,6 +4,7 @@ import { authService } from "../services/authService"
 import { apiClient } from "../services/apiClient"
 import { useAuthStore } from "../store/authStore"
 import { useState, useEffect } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 export type AuthStatus = "checking" | "authenticated" | "unauthenticated"
 
@@ -25,6 +26,7 @@ interface UpdateContactInfoCredentials {
   apiKey: string
   deliveryProvider: string
   webhookUrl: string
+  webhookStock: string
 }
 
 export function useAuth() {
@@ -68,6 +70,14 @@ export function useAuth() {
   })
 
   return { login, register , updateContactInfo}
+}
+
+export function useWebhookUrl() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['webhookUrl'],
+    queryFn: () => authService.getWebhookUrl(),
+  })
+  return { webhookUrl: data?.webhookUrl, isLoading, error }
 }
 
 export function useAuthVerification() {

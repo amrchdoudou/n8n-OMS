@@ -6,6 +6,9 @@ export interface User {
   email?: string
   createdAt: string
   apiKey?: string
+  deliveryProvider?: string
+  webhookUrl?: string
+  webhookStock?: string
 }
 
 export interface AuthCredentials {
