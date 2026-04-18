@@ -40,6 +40,7 @@ export const JsonNull = runtime.objectEnumValues.instances.JsonNull;
 export const AnyNull = runtime.objectEnumValues.instances.AnyNull;
 export const ModelName = {
     User: 'User',
+    Supplier: 'Supplier',
     Order: 'Order'
 };
 /*
@@ -60,7 +61,14 @@ export const UserScalarFieldEnum = {
     password: 'password',
     createdAt: 'createdAt',
     deliveryProvider: 'deliveryProvider',
-    apiKey: 'apiKey'
+    apiKey: 'apiKey',
+    webhookUrl: 'webhookUrl',
+    webhookStock: 'webhookStock'
+};
+export const SupplierScalarFieldEnum = {
+    id: 'id',
+    orderId: 'orderId',
+    suppliers: 'suppliers'
 };
 export const OrderScalarFieldEnum = {
     id: 'id',
@@ -75,12 +83,16 @@ export const OrderScalarFieldEnum = {
     status: 'status',
     trackingId: 'trackingId',
     deliveryType: 'deliveryType',
+    webhookUrl: 'webhookUrl',
     createdAt: 'createdAt',
     userId: 'userId'
 };
 export const SortOrder = {
     asc: 'asc',
     desc: 'desc'
+};
+export const JsonNullValueInput = {
+    JsonNull: JsonNull
 };
 export const QueryMode = {
     default: 'default',
@@ -89,5 +101,10 @@ export const QueryMode = {
 export const NullsOrder = {
     first: 'first',
     last: 'last'
+};
+export const JsonNullValueFilter = {
+    DbNull: DbNull,
+    JsonNull: JsonNull,
+    AnyNull: AnyNull
 };
 //# sourceMappingURL=prismaNamespaceBrowser.js.map

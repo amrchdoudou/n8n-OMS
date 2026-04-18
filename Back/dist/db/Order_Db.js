@@ -12,6 +12,7 @@ const CreateOrder = async (userId, data) => {
                 price: data.price,
                 ...(data.currency ? { currency: data.currency } : {}),
                 ...(data.deliveryType ? { deliveryType: data.deliveryType } : {}),
+                ...(data.webhookUrl ? { webhookUrl: data.webhookUrl } : {}),
             },
         });
         return newOrder;
@@ -61,6 +62,7 @@ const UpdateOrder = async (orderId, data) => {
                 ...(data.status ? { status: data.status } : {}),
                 ...(data.trackingId !== undefined ? { trackingId: data.trackingId } : {}),
                 ...(data.deliveryType ? { deliveryType: data.deliveryType } : {}),
+                ...(data.webhookUrl !== undefined ? { webhookUrl: data.webhookUrl } : {}),
             },
         });
         return updatedOrder;
@@ -82,5 +84,64 @@ const DeleteOrder = async (orderId) => {
         throw error;
     }
 };
-export { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder };
+const GetOrdersByWebhookUrl = async (webhookUrl) => {
+    try {
+        const orders = await prisma.order.findMany({
+            where: {
+                webhookUrl: webhookUrl,
+            },
+            orderBy: { createdAt: "desc" },
+        });
+        return orders;
+    }
+    catch (error) {
+        console.error("Error fetching orders by webhook:", error);
+        throw error;
+    }
+};
+const GetUserByApiKey = async (apiKey) => {
+    try {
+        const user = await prisma.user.findFirst({
+            where: { apiKey: apiKey },
+        });
+        return user;
+    }
+    catch (error) {
+        console.error("Error fetching user by API key:", error);
+        throw error;
+    }
+};
+const UpdateOrderByTracking = async (userId, trackingId, data) => {
+    try {
+        const order = await prisma.order.findFirst({
+            where: {
+                userId: userId,
+                trackingId: trackingId,
+            },
+        });
+        if (!order) {
+            return null;
+        }
+        const updatedOrder = await prisma.order.update({
+            where: { id: order.id },
+            data: {
+                ...(data.customer ? { customer: data.customer } : {}),
+                ...(data.phone ? { phone: data.phone } : {}),
+                ...(data.location ? { location: data.location } : {}),
+                ...(data.product ? { product: data.product } : {}),
+                ...(data.price !== undefined ? { price: data.price } : {}),
+                ...(data.currency ? { currency: data.currency } : {}),
+                ...(data.whatsappAttempts !== undefined ? { whatsappAttempts: data.whatsappAttempts } : {}),
+                ...(data.status ? { status: data.status } : {}),
+                ...(data.webhookUrl !== undefined ? { webhookUrl: data.webhookUrl } : {}),
+            },
+        });
+        return updatedOrder;
+    }
+    catch (error) {
+        console.error("Error updating order by tracking:", error);
+        throw error;
+    }
+};
+export { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder, GetOrdersByWebhookUrl, GetUserByApiKey, UpdateOrderByTracking };
 //# sourceMappingURL=Order_Db.js.map

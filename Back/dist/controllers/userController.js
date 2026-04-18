@@ -1,4 +1,5 @@
 import { updateUserInfo, CreateUser, CheckUserPassword, UpdateContactInfoInfo } from '../db/User_Db.js';
+import { prisma } from '../Services/Common.js';
 export const createUser = async (req, res) => {
     try {
         if (!req.body.username || !req.body.storeName || !req.body.email || !req.body.password) {
@@ -48,9 +49,9 @@ export const UpdateUserContactInfo = async (req, res) => {
     if (isNaN(userId)) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
-    const { number, storeName, apiKey, deliveryProvider } = req.body;
+    const { number, storeName, apiKey, deliveryProvider, webhookUrl, webhookStock } = req.body;
     try {
-        const updatedUser = await UpdateContactInfoInfo(userId, number, storeName, apiKey, deliveryProvider);
+        const updatedUser = await UpdateContactInfoInfo(userId, number, storeName, apiKey, deliveryProvider, webhookUrl, webhookStock);
         res.json(updatedUser);
     }
     catch (err) {

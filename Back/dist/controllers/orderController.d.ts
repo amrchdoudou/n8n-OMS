@@ -3,5 +3,7 @@ export declare const createOrder: (req: Request, res: Response) => Promise<Respo
 export declare const getOrders: (req: Request, res: Response) => Promise<void>;
 export declare const getOrder: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const updateOrder: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const updateOrderByTracking: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const deleteOrder: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const getOrdersByWebhook: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 //# sourceMappingURL=orderController.d.ts.map

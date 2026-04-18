@@ -1,4 +1,4 @@
-import { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder } from "../db/Order_Db.js";
+import { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder, GetOrdersByWebhookUrl, GetUserByApiKey, UpdateOrderByTracking } from "../db/Order_Db.js";
 export const createOrder = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -66,6 +66,24 @@ export const updateOrder = async (req, res) => {
         res.status(500).json({ error: "Failed to update order" });
     }
 };
+export const updateOrderByTracking = async (req, res) => {
+    try {
+        const trackingId = req.params.trackingId;
+        const userId = req.user.id;
+        if (!trackingId) {
+            return res.status(400).json({ error: "Tracking ID is required" });
+        }
+        const updatedOrder = await UpdateOrderByTracking(userId, trackingId, req.body);
+        if (!updatedOrder) {
+            return res.status(404).json({ error: "Order not found with this tracking ID" });
+        }
+        res.json(updatedOrder);
+    }
+    catch (err) {
+        console.error("Update error:", err);
+        res.status(500).json({ error: "Failed to update order", details: err.message });
+    }
+};
 export const deleteOrder = async (req, res) => {
     try {
         const orderId = parseInt(req.params.id);
@@ -86,6 +104,27 @@ export const deleteOrder = async (req, res) => {
     }
     catch (err) {
         res.status(500).json({ error: "Failed to delete order" });
+    }
+};
+import { prisma } from "../Services/Common.js";
+// GET /orders/by-webhook
+// Authenticates via JWT, checks if user has a configured webhookUrl,
+// and returns all orders with that webhookUrl
+export const getOrdersByWebhook = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        if (!user.webhookUrl) {
+            return res.status(400).json({ error: "User does not have a configured webhook URL" });
+        }
+        const orders = await GetOrdersByWebhookUrl(user.webhookUrl);
+        res.json(orders);
+    }
+    catch (err) {
+        res.status(500).json({ error: "Failed to fetch orders by webhook" });
     }
 };
 //# sourceMappingURL=orderController.js.map

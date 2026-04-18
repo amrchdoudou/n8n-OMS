@@ -8,6 +8,8 @@ declare const CreateUser: (username: string, storeName: string, email: string, p
     createdAt: Date;
     deliveryProvider: string | null;
     apiKey: string | null;
+    webhookUrl: string | null;
+    webhookStock: string | null;
 }>;
 declare const CheckUserPassword: (email: string, password: string) => Promise<{
     email: string | null;
@@ -24,8 +26,10 @@ declare const updateUserInfo: (userId: number, Email?: string, Password?: string
     createdAt: Date;
     deliveryProvider: string | null;
     apiKey: string | null;
+    webhookUrl: string | null;
+    webhookStock: string | null;
 }>;
-declare const UpdateContactInfoInfo: (userId: number, number?: string, storeName?: string, apiKey?: string, deliveryProvider?: string) => Promise<{
+declare const UpdateContactInfoInfo: (userId: number, number?: string, storeName?: string, apiKey?: string, deliveryProvider?: string, webhookUrl?: string, webhookStock?: string) => Promise<{
     email: string | null;
     id: number;
     username: string;
@@ -35,6 +39,8 @@ declare const UpdateContactInfoInfo: (userId: number, number?: string, storeName
     createdAt: Date;
     deliveryProvider: string | null;
     apiKey: string | null;
+    webhookUrl: string | null;
+    webhookStock: string | null;
 }>;
 export { CreateUser, CheckUserPassword, updateUserInfo, UpdateContactInfoInfo };
 //# sourceMappingURL=User_Db.d.ts.map

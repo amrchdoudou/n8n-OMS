@@ -8,6 +8,7 @@ interface CreateOrderInput {
     price: number;
     currency?: string;
     deliveryType?: DeliveryType;
+    webhookUrl?: string;
 }
 interface UpdateOrderInput {
     customer?: string;
@@ -20,11 +21,13 @@ interface UpdateOrderInput {
     status?: OrderStatus;
     trackingId?: string;
     deliveryType?: DeliveryType;
+    webhookUrl?: string;
 }
 declare const CreateOrder: (userId: number, data: CreateOrderInput) => Promise<{
     userId: number;
     id: number;
     createdAt: Date;
+    webhookUrl: string | null;
     shopifyId: string | null;
     customer: string;
     phone: string;
@@ -41,6 +44,7 @@ declare const GetOrdersByUser: (userId: number) => Promise<{
     userId: number;
     id: number;
     createdAt: Date;
+    webhookUrl: string | null;
     shopifyId: string | null;
     customer: string;
     phone: string;
@@ -57,6 +61,7 @@ declare const GetOrderById: (orderId: number) => Promise<{
     userId: number;
     id: number;
     createdAt: Date;
+    webhookUrl: string | null;
     shopifyId: string | null;
     customer: string;
     phone: string;
@@ -73,6 +78,7 @@ declare const UpdateOrder: (orderId: number, data: UpdateOrderInput) => Promise<
     userId: number;
     id: number;
     createdAt: Date;
+    webhookUrl: string | null;
     shopifyId: string | null;
     customer: string;
     phone: string;
@@ -89,6 +95,7 @@ declare const DeleteOrder: (orderId: number) => Promise<{
     userId: number;
     id: number;
     createdAt: Date;
+    webhookUrl: string | null;
     shopifyId: string | null;
     customer: string;
     phone: string;
@@ -101,6 +108,53 @@ declare const DeleteOrder: (orderId: number) => Promise<{
     trackingId: string | null;
     deliveryType: DeliveryType;
 }>;
-export { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder };
+declare const GetOrdersByWebhookUrl: (webhookUrl: string) => Promise<{
+    userId: number;
+    id: number;
+    createdAt: Date;
+    webhookUrl: string | null;
+    shopifyId: string | null;
+    customer: string;
+    phone: string;
+    location: string;
+    product: string;
+    price: number;
+    currency: string;
+    whatsappAttempts: number;
+    status: OrderStatus;
+    trackingId: string | null;
+    deliveryType: DeliveryType;
+}[]>;
+declare const GetUserByApiKey: (apiKey: string) => Promise<{
+    email: string | null;
+    id: number;
+    username: string;
+    storeName: string;
+    whatsappNumber: string | null;
+    password: string;
+    createdAt: Date;
+    deliveryProvider: string | null;
+    apiKey: string | null;
+    webhookUrl: string | null;
+    webhookStock: string | null;
+} | null>;
+declare const UpdateOrderByTracking: (userId: number, trackingId: string, data: UpdateOrderInput) => Promise<{
+    userId: number;
+    id: number;
+    createdAt: Date;
+    webhookUrl: string | null;
+    shopifyId: string | null;
+    customer: string;
+    phone: string;
+    location: string;
+    product: string;
+    price: number;
+    currency: string;
+    whatsappAttempts: number;
+    status: OrderStatus;
+    trackingId: string | null;
+    deliveryType: DeliveryType;
+} | null>;
+export { CreateOrder, GetOrdersByUser, GetOrderById, UpdateOrder, DeleteOrder, GetOrdersByWebhookUrl, GetUserByApiKey, UpdateOrderByTracking };
 export type { CreateOrderInput, UpdateOrderInput };
 //# sourceMappingURL=Order_Db.d.ts.map

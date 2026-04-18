@@ -56,7 +56,7 @@ const updateUserInfo = async (userId, Email, Password, number, storeName, apiKey
         throw error;
     }
 };
-const UpdateContactInfoInfo = async (userId, number, storeName, apiKey, deliveryProvider) => {
+const UpdateContactInfoInfo = async (userId, number, storeName, apiKey, deliveryProvider, webhookUrl, webhookStock) => {
     try {
         const updatedUser = await prisma.user.update({
             where: { id: userId },
@@ -65,6 +65,8 @@ const UpdateContactInfoInfo = async (userId, number, storeName, apiKey, delivery
                 ...(storeName ? { storeName: storeName } : {}),
                 ...(apiKey ? { apiKey: apiKey } : {}),
                 ...(deliveryProvider ? { deliveryProvider: deliveryProvider } : {}),
+                ...(webhookUrl ? { webhookUrl: webhookUrl } : {}),
+                ...(webhookStock ? { webhookStock: webhookStock } : {}),
             },
         });
         return updatedUser;

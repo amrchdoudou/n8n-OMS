@@ -15,7 +15,17 @@ export const OrderStatus = {
     delivered: 'delivered',
     cancelled: 'cancelled',
     failed: 'failed',
-    returned: 'returned'
+    returned: 'returned',
+    READY: 'READY',
+    PICKUP: 'PICKUP',
+    TO_STATION: 'TO_STATION',
+    IN_STATION: 'IN_STATION',
+    TO_WILAYA: 'TO_WILAYA',
+    PREPARING: 'PREPARING',
+    IN_TRANSIT: 'IN_TRANSIT',
+    SUSPENDED: 'SUSPENDED',
+    DELIVERED: 'DELIVERED',
+    RETURNED: 'RETURNED'
 };
 export const DeliveryType = {
     domicile: 'domicile',
