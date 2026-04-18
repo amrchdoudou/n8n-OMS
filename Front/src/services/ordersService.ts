@@ -79,9 +79,13 @@ export const ordersService = {
                       console.error(`Failed to update status for order ${order.id}:`, updateErr)
                     }
                     return { ...order, status: trackingStatus }
+                  } else if (!trackingStatus) {
+                    // If tracking fetch did not work, default to this UI status
+                    return { ...order, status: "pushing to delevery" }
                   }
                 } catch (err) {
                   console.error(`Failed to fetch tracking for order ${order.id}:`, err)
+                  return { ...order, status: "pushing to delevery" }
                 }
               }
               return order
@@ -90,8 +94,11 @@ export const ordersService = {
           return updatedOrders
         }
       }
-
-      return remoteOrders
+      
+      // Fallback for when tracking ID exists but we can't fetch it (no credentials or no provider)
+      return remoteOrders.map(order => 
+        order.trackingId ? { ...order, status: "pushing to delevery" } : order
+      )
     } catch (err) {
       console.error("Failed to fetch remote orders, returning empty array:", err)
       return []
