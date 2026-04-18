@@ -20,28 +20,31 @@ const DELIVERY_APIS: Record<string, {
       'X-API-ID': apiKey.split(':')[0] || apiKey,
       'X-API-TOKEN': apiKey.split(':')[1] || apiKey,
     }),
-    extractStatus: (data) => data?.data?.[0]?.status ?? null,
+    extractStatus: (data) => {
+      const p = data?.data?.[0];
+      return p ? (p.status ?? p.statut ?? p.state ?? null) : null;
+    },
   },
   maystro: {
     getTrackingUrl: (trackingId) => `https://backend.maystro-delivery.com/api/v1/tracking/${trackingId}`,
     getHeaders: (apiKey) => ({
       'Authorization': `Token ${apiKey}`,
     }),
-    extractStatus: (data) => data?.status ?? null,
+    extractStatus: (data) => data?.status ?? data?.statut ?? data?.state ?? null,
   },
   dhd: {
     getTrackingUrl: (trackingId) => `https://api.dhd.delivery/api/v1/tracking/${trackingId}`,
     getHeaders: (apiKey) => ({
       'Authorization': `Bearer ${apiKey}`,
     }),
-    extractStatus: (data) => data?.status ?? null,
+    extractStatus: (data) => data?.status ?? data?.statut ?? data?.state ?? null,
   },
   zrexpress: {
     getTrackingUrl: (trackingId) => `https://api.zrexpress.com/api/tracking/${trackingId}`,
     getHeaders: (apiKey) => ({
       'Authorization': `Bearer ${apiKey}`,
     }),
-    extractStatus: (data) => data?.status ?? null,
+    extractStatus: (data) => data?.status ?? data?.statut ?? data?.state ?? null,
   },
 }
 
