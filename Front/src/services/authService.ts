@@ -3,10 +3,13 @@ import type { User } from "../entities/User"
 import axios from "axios"
 
 import { n8nClient } from "./n8nClient"
+import { useAuthStore } from "@/store/authStore"
 
 const ACCESS_TOKEN_KEY = "oms.accessToken"
 const REFRESH_TOKEN_KEY = "oms.refreshToken"
 const CURRENT_USER_KEY = "oms.currentUser"
+
+const setUser = useAuthStore((s) => s.setUser)
 
 interface LoginResponse {
   accessToken: string
@@ -71,6 +74,12 @@ export const authService = {
     localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken)
     // We don't have a "get current user" endpoint, so store token info
     // The user data will come from the token — for now we store a minimal user
+    //get the user info 
+    const userInfo = await apiClient.get<User>('users/me')
+    console.log(userInfo);
+    setUser(userInfo)
+    
+    
     const user = { ...tokens } as User & LoginResponse
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user))
     return user
