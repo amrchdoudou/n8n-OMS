@@ -8,8 +8,17 @@ interface AuthState {
   logout: () => Promise<void>
 }
 
+const getCurrentUser = (): User | null => {
+  try {
+    const raw = localStorage.getItem("oms.currentUser")
+    return raw ? (JSON.parse(raw) as User) : null
+  } catch {
+    return null
+  }
+}
+
 export const useAuthStore = create<AuthState>((set) => ({
-  user: authService.getCurrentUser(),
+  user: getCurrentUser(),
   setUser: (user) => set({ user }),
   logout: async () => {
     await authService.logout()
