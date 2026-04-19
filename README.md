@@ -18,8 +18,8 @@ built with n8n, Shopify, DHD Ecotrack, and WhatsApp.
 - **Notifications:** WhatsApp Business API
 
 ## 📸 Screenshots
-![Dashboard](screenshots/dashboard.png)
-![Workflow](screenshots/workflow-overview.png)
+![Dashboard](<img width="1001" height="598" alt="Screenshot 2026-04-19 at 11 11 49" src="https://github.com/user-attachments/assets/241d0051-6011-4f58-9c3d-284e47295b48" />)
+![Workflow](<img width="1277" height="728" alt="Screenshot 2026-04-19 at 11 11 08" src="https://github.com/user-attachments/assets/1383d50d-0049-42fd-a56b-0db114138cc2" />)
 
 ## 🔄 Workflow Architecture
 1. Shopify Order → Webhook → n8n
@@ -32,5 +32,5 @@ built with n8n, Shopify, DHD Ecotrack, and WhatsApp.
 1. Import workflow JSONs into your n8n instance
 2. Set your credentials (DHD token, WhatsApp API)
 3. Connect your Shopify webhook URL
-4. Deploy!<img width="1001" height="598" alt="Screenshot 2026-04-19 at 11 11 49" src="https://github.com/user-attachments/assets/241d0051-6011-4f58-9c3d-284e47295b48" />
-<img width="1277" height="728" alt="Screenshot 2026-04-19 at 11 11 08" src="https://github.com/user-attachments/assets/1383d50d-0049-42fd-a56b-0db114138cc2" />
+4. Deploy!
+
