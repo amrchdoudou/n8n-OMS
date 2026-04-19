@@ -18,8 +18,11 @@ built with n8n, Shopify, DHD Ecotrack, and WhatsApp.
 - **Notifications:** WhatsApp Business API
 
 ## 📸 Screenshots
-![Dashboard](<img width="1001" height="598" alt="Screenshot 2026-04-19 at 11 11 49" src="https://github.com/user-attachments/assets/241d0051-6011-4f58-9c3d-284e47295b48" />)
-![Workflow](<img width="1277" height="728" alt="Screenshot 2026-04-19 at 11 11 08" src="https://github.com/user-attachments/assets/1383d50d-0049-42fd-a56b-0db114138cc2" />)
+![Dashboard]
+<img width="1001" height="598" alt="Screenshot 2026-04-19 at 11 11 49" src="https://github.com/user-attachments/assets/241d0051-6011-4f58-9c3d-284e47295b48" />
+![Workflow](
+<img width="1277" height="728" alt="Screenshot 2026-04-19 at 11 11 08" src="https://github.com/user-attachments/assets/1383d50d-0049-42fd-a56b-0db114138cc2" />
+)
 
 ## 🔄 Workflow Architecture
 1. Shopify Order → Webhook → n8n
